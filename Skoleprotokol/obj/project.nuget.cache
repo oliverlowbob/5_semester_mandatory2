@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "FpXhTXGf5fIwtKHLy8Tdy3NfQECrl6eXYpbfi0P9DHZOTGMcKoA6dIyFGkUGha5k+Qu+yyFIfNPKJMk8wULyoA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol.csproj",
+  "expectedPackageFiles": [
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\olive\\.nuget\\packages\\netstandard.library\\2.0.0\\netstandard.library.2.0.0.nupkg.sha512",
+    "C:\\Users\\olive\\.nuget\\packages\\nunit\\3.13.1\\nunit.3.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}
