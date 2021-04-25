@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol.csproj": {}
+    "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol - Backup.csproj": {}
   },
   "projects": {
-    "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol.csproj": {
+    "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol - Backup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol.csproj",
-        "projectName": "Skoleprotokol",
-        "projectPath": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol.csproj",
+        "projectUniqueName": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol - Backup.csproj",
+        "projectName": "Skoleprotokol - Backup",
+        "projectPath": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\Skoleprotokol - Backup.csproj",
         "packagesPath": "C:\\Users\\olive\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\olive\\Documents\\5. Semester\\Mandatories\\Tests_1\\Skoleprotokol\\obj\\",
         "projectStyle": "PackageReference",
@@ -43,16 +43,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
             "NUnit": {
               "target": "Package",
               "version": "[3.13.1, )"
