@@ -11,18 +11,18 @@ namespace Skoleprotokol.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private MyDBContext myDbContext;
+        private readonly MyDBContext _myDbContext;
 
         public UserController(MyDBContext context)
         {
-            myDbContext = context;
+            _myDbContext = context;
         }
         
         [HttpGet]
         [Route("users/get_all")]
         public IList<User> Get()
         {
-            return (this.myDbContext.Users.ToList());
+            return _myDbContext.User.ToList();
         }
     }
 }

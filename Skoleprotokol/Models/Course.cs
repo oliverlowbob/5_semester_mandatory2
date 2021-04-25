@@ -1,8 +1,11 @@
-﻿namespace Skoleprotokol.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Skoleprotokol.Models
 {
     public class Course
     {
-        public int Id { get; set; }
+        [Key]
+        public int IdCourse { get; set; }
         public string Name { get; set; }
     }
 }
