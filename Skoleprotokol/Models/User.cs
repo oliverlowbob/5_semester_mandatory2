@@ -11,7 +11,7 @@ namespace Skoleprotokol.Models
         public string Last_Name {get; set;}
         public string Email {get; set;}
         public string Password {get; set; }
-        public virtual School School { get; set; }
+        public virtual School School_ { get; set; }
         public virtual IEnumerable<Role> Roles { get; set; }
         public virtual IEnumerable<Lesson> Lessons { get; set; }
         public virtual IEnumerable<Class> Classes { get; set; }
