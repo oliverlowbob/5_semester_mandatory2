@@ -1,44 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Skoleprotokol.Data;
-using Skoleprotokol.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Skoleprotokol.ApiModels;
+using Skoleprotokol.Repository;
 
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
     public class UserController : ApiController
     {
+
         public UserController()
         {
         }
 
+        [HttpPut]
+        [Route("users")]
+        public async Task UpdateUser([FromBody] UserApiModel args)
+        {
+            var userRepository = new UserRepository();
+
+            if(args == null)
+            {
+                throw new ArgumentNullException("No args given");
+            }
+
+            if(args.Id == 0)
+            {
+                throw new ArgumentNullException("No user id");
+            }
+
+            await userRepository.UpdateUser(args);
+        }
+
+        [HttpPost]
+        [Route("users/enable/{userId}")]
+        public async Task EnableUser(int userId)
+        {
+            using (var dbContext = new Scool_ProtocolContext())
+            {
+                var transaction = await dbContext.Database.BeginTransactionAsync();
+
+                var user = await dbContext.Users.FindAsync(userId);
+
+                if(user.Active == true)
+                {
+                    return;
+                }
+
+                user.Active = true;
+
+                await dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+        }
 
 
         [HttpPost]
         [Route("users/disable/{userId}")]
-        public async Task<UserApiModel> DisableUser(int userId)
+        public async Task DisableUser(int userId)
         {
-            using (var context = new Scool_ProtocolContext())
+            using (var dbContext = new Scool_ProtocolContext())
             {
-                var user = await context.Users.FindAsync(userId)
-                    .ConfigureAwait(false);
+                var transaction = await dbContext.Database.BeginTransactionAsync();
+
+                var user = await dbContext.Users.FindAsync(userId);
+
+                if(user.Active == false)
+                {
+                    return;
+                }
 
                 user.Active = false;
 
-                await context.SaveChangesAsync()
-                    .ConfigureAwait(false);
+                await dbContext.SaveChangesAsync();
 
-                return new UserApiModel
-                {
-                    Id = user.Iduser,
-                    Active = false
-                };
+                await transaction.CommitAsync();
             }
         }
 
@@ -46,10 +86,11 @@ namespace Skoleprotokol.Controllers
         [Route("users/{userId}")]
         public async Task<UserApiModel> GetUser(int userId)
         {
-            using (var context = new Scool_ProtocolContext())
+            using (var dbContext = new Scool_ProtocolContext())
             {
-                var user = await context.Users.FindAsync(userId)
-                    .ConfigureAwait(false);
+                var transaction = await dbContext.Database.BeginTransactionAsync();
+
+                var user = await dbContext.Users.FindAsync(userId);
 
                 var result = new UserApiModel
                 {
@@ -88,6 +129,8 @@ namespace Skoleprotokol.Controllers
                         Name = ur.RoleIdroleNavigation.Role1
                     }).ToList()
                 };
+
+                await transaction.CommitAsync();
 
                 return result;
             }
