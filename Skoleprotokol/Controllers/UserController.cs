@@ -18,12 +18,7 @@ namespace Skoleprotokol.Controllers
         {
         }
 
-        //[HttpPut]
-        //[Route("users")]
-        //public async Task<UserApi> UpdateUser([FromBody] )
-        //{
 
-        //}
 
         [HttpPost]
         [Route("users/disable/{userId}")]
