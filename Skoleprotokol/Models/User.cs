@@ -20,6 +20,7 @@ namespace Skoleprotokol.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool? Active { get; set; }
 
         public virtual School SchoolIdschoolNavigation { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }

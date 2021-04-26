@@ -251,6 +251,11 @@ namespace Skoleprotokol.Data
 
                 entity.Property(e => e.Iduser).HasColumnName("iduser");
 
+                entity.Property(e => e.Active)
+                    .IsRequired()
+                    .HasColumnName("active")
+                    .HasDefaultValueSql("'1'");
+
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasColumnType("varchar(45)")
@@ -318,8 +323,6 @@ namespace Skoleprotokol.Data
             OnModelCreatingPartial(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -332,5 +335,7 @@ namespace Skoleprotokol.Data
             optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning));
         }
 
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

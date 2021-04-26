@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.ApiModels
 {
-    public class User
+    public class UserApi
     {
         public int Id { get; set; }
         public int SchoolId { get; set; }
@@ -13,9 +13,10 @@ namespace Skoleprotokol.ApiModels
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool? Active { get; set; }
 
-        public School School { get; set; }
-        public IEnumerable<Role> Roles { get; set; }
-        public IEnumerable<Lesson> Lessons { get; set; }
+        public SchoolApi School { get; set; }
+        public IEnumerable<RoleApi> Roles { get; set; }
+        public IEnumerable<LessonApi> Lessons { get; set; }
     }
 }

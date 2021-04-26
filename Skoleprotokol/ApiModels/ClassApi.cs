@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.ApiModels
 {
-    public class Class
+    public class ClassApi
     {
         public int Id { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int NumberOfClass { get; set; }
-        public Course Course { get; set; }
+        public CourseApi Course { get; set; }
 
     }
 }
