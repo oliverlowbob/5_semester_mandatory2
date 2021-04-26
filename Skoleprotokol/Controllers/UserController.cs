@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Skoleprotokol.DbContexts;
+using Skoleprotokol.Data;
 using Skoleprotokol.Models;
 using System;
 using System.Collections.Generic;
@@ -9,20 +8,20 @@ using System.Linq;
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ApiController
     {
-        private readonly MyDBContext _myDbContext;
-
-        public UserController(MyDBContext context)
+        public UserController()
         {
-            _myDbContext = context;
         }
-        
+
         [HttpGet]
-        [Route("users/get_all")]
-        public IList<User> Get()
+        [Route("test")]
+        public string Test()
         {
-            return _myDbContext.User.ToList();
+            using(var context = new Scool_ProtocolContext())
+            {
+                return context.Users.Where(u => u.Iduser == 1).FirstOrDefault().SchoolIdschoolNavigation.Name;
+            }
         }
     }
 }

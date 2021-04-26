@@ -1,0 +1,68 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "Scool_ProtocolContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "ProceduresReturnList": false,
+   "ProjectRootNamespace": "Skoleprotokol",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "address",
+         "ObjectType": 0
+      },
+      {
+         "Name": "attendance_key",
+         "ObjectType": 0
+      },
+      {
+         "Name": "class",
+         "ObjectType": 0
+      },
+      {
+         "Name": "course",
+         "ObjectType": 0
+      },
+      {
+         "Name": "lesson",
+         "ObjectType": 0
+      },
+      {
+         "Name": "role",
+         "ObjectType": 0
+      },
+      {
+         "Name": "school",
+         "ObjectType": 0
+      },
+      {
+         "Name": "user",
+         "ObjectType": 0
+      },
+      {
+         "Name": "user_role",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "localhost(scool_protocol)",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSpatial": false
+}

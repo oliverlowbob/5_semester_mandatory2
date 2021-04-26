@@ -35,12 +35,12 @@ namespace UnitTests
             //Create a class
             var class1 = new Class
             {
-                IdClass = 1,
+                Id = 1,
                 Start = new DateTime(2021, 03, 11),
                 End = new DateTime(2021, 03, 12),
                 Course = new Course
                 {
-                    IdCourse = 1,
+                    Id = 1,
                     Name = "Software Development"
                 }
             };
@@ -48,16 +48,16 @@ namespace UnitTests
             //Create student
             var student = new User
             {
-                IdUser = 1,
-                First_Name = "Thomas",
-                Last_Name = "Jensen",
+                Id = 1,
+                FirstName = "Thomas",
+                LastName = "Jensen",
                 Email = "tj@live.dk",
                 Password = "123",
                 Roles = new List<Role>
                 {
                     new Role()
                     {
-                        IdRole = 2
+                        Id = 2
                     }
                 }
             };
@@ -98,12 +98,12 @@ namespace UnitTests
             //Create a class
             var class1 = new Class
             {
-                IdClass = 1,
+                Id = 1,
                 Start = new DateTime(2021, 03, 11),
                 End = new DateTime(2021, 03, 12),
                 Course = new Course
                 {
-                    IdCourse = 1,
+                    Id = 1,
                     Name = "Software Development"
                 }
             };
@@ -111,12 +111,12 @@ namespace UnitTests
             //Create a class
             var class2 = new Class
             {
-                IdClass = 2,
+                Id = 2,
                 Start = new DateTime(2021, 03, 13),
                 End = new DateTime(2021, 03, 14),
                 Course = new Course
                 {
-                    IdCourse = 2,
+                    Id = 2,
                     Name = "Software Design"
                 }
             };
@@ -124,16 +124,16 @@ namespace UnitTests
             //Create student
             var student = new User
             {
-                IdUser = 1,
-                First_Name = "Thomas",
-                Last_Name = "Jensen",
+                Id = 1,
+                FirstName = "Thomas",
+                LastName = "Jensen",
                 Email = "tj@live.dk",
                 Password = "123",
                 Roles = new List<Role>
                 {
                     new Role()
                     {
-                        IdRole = 2
+                        Id = 2
                     }
                 },
             };
@@ -164,11 +164,11 @@ namespace UnitTests
             var classId = 1;
 
             var totalAmountOfLessons = lessons
-                .Where(l => l.Class.IdClass == classId)
+                .Where(l => l.Class.Id == classId)
                 .Count();
 
             var presenceSum = lessons
-                .Where(l => l.Class.IdClass == classId)
+                .Where(l => l.Class.Id == classId)
                 .Count(l => l.Present == true);
 
             double attendance = (double)presenceSum / (double)totalAmountOfLessons;
@@ -183,12 +183,12 @@ namespace UnitTests
             //Create a class
             var class1 = new Class
             {
-                IdClass = 1,
+                Id = 1,
                 Start = new DateTime(2021, 03, 11),
                 End = new DateTime(2021, 03, 12),
                 Course = new Course
                 {
-                    IdCourse = 1,
+                    Id = 1,
                     Name = "Software Development"
                 }
             };
@@ -196,16 +196,16 @@ namespace UnitTests
             //Create a student
             var student = new User
             {
-                IdUser = 1,
-                First_Name = "Thomas",
-                Last_Name = "Jensen",
+                Id = 1,
+                FirstName = "Thomas",
+                LastName = "Jensen",
                 Email = "tj@live.dk",
                 Password = "123",
                 Roles = new List<Role>
                 {
                     new Role()
                     {
-                        IdRole = 2
+                        Id = 2
                     }
                 },
                 Classes = new List<Class> { class1 }
@@ -222,12 +222,12 @@ namespace UnitTests
             //Create a class
             var class1 = new Class
             {
-                IdClass = 1,
+                Id = 1,
                 Start = new DateTime(2021, 03, 11),
                 End = new DateTime(2021, 03, 12),
                 Course = new Course
                 {
-                    IdCourse = 1,
+                    Id = 1,
                     Name = "Software Development"
                 }
             };
@@ -235,16 +235,16 @@ namespace UnitTests
             //Create a student
             var student = new User
             {
-                IdUser = 1,
-                First_Name = "Thomas",
-                Last_Name = "Jensen",
+                Id = 1,
+                FirstName = "Thomas",
+                LastName = "Jensen",
                 Email = "tj@live.dk",
                 Password = "123",
                 Roles = new List<Role>
                 {
                     new Role()
                     {
-                        IdRole = 2
+                        Id = 2
                     }                },
                 Classes = new List<Class> { class1 }
             };
@@ -252,16 +252,16 @@ namespace UnitTests
             //Create a student
             var student2 = new User
             {
-                IdUser = 2,
-                First_Name = "Dennis",
-                Last_Name = "Jensen",
+                Id = 2,
+                FirstName = "Dennis",
+                LastName = "Jensen",
                 Email = "dj@live.dk",
                 Password = "123",
                 Roles = new List<Role>
                 {
                     new Role()
                     {
-                        IdRole = 2
+                        Id = 2
                     }                },
                 Classes = new List<Class> { class1 }
             };
