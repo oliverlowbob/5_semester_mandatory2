@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Skoleprotokol.Data;
 
 namespace Skoleprotokol
 {
@@ -19,6 +22,7 @@ namespace Skoleprotokol
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             //services.AddControllersWithViews()
             //    .AddNewtonsoftJson(options =>
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
