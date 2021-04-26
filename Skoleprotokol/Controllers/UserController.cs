@@ -17,14 +17,31 @@ namespace Skoleprotokol.Controllers
         {
         }
 
-        [HttpGet]
-        [Route("test")]
-        public async Task<ApiModels.User> Test()
+
+        [HttpDelete]
+        [Route("users/{userId}")]
+        public async Task DisableUser(int userId)
         {
-            using(var context = new Scool_ProtocolContext())
+            using (var context = new Scool_ProtocolContext())
             {
-                var users = await context.Users.ToListAsync().ConfigureAwait(false);
-                var user = users.ElementAt(1);
+                var user = await context.Users.FindAsync(userId)
+                    .ConfigureAwait(false);
+
+                context.Users.Remove(user);
+
+                await context.SaveChangesAsync()
+                    .ConfigureAwait(false);
+            }
+        }
+
+        [HttpGet]
+        [Route("users/{userId}")]
+        public async Task<ApiModels.User> GetUser(int userId)
+        {
+            using (var context = new Scool_ProtocolContext())
+            {
+                var user = await context.Users.FindAsync(userId)
+                    .ConfigureAwait(false);
 
                 var result = new ApiModels.User
                 {
