@@ -25,32 +25,38 @@ namespace Skoleprotokol.Controllers
 
         //}
 
-        [HttpDelete]
-        [Route("users/{userId}")]
-        public async Task DisableUser(int userId)
+        [HttpPost]
+        [Route("users/disable/{userId}")]
+        public async Task<UserApiModel> DisableUser(int userId)
         {
             using (var context = new Scool_ProtocolContext())
             {
                 var user = await context.Users.FindAsync(userId)
                     .ConfigureAwait(false);
 
-                context.Users.Remove(user);
+                user.Active = false;
 
                 await context.SaveChangesAsync()
                     .ConfigureAwait(false);
+
+                return new UserApiModel
+                {
+                    Id = user.Iduser,
+                    Active = false
+                };
             }
         }
 
         [HttpGet]
         [Route("users/{userId}")]
-        public async Task<UserApi> GetUser(int userId)
+        public async Task<UserApiModel> GetUser(int userId)
         {
             using (var context = new Scool_ProtocolContext())
             {
                 var user = await context.Users.FindAsync(userId)
                     .ConfigureAwait(false);
 
-                var result = new UserApi
+                var result = new UserApiModel
                 {
                     Id = user.Iduser,
                     FirstName = user.FirstName,
@@ -59,20 +65,20 @@ namespace Skoleprotokol.Controllers
                     Password = user.Password,
                     Active = user.Active,
                     SchoolId = user.SchoolIdschool,
-                    School = new SchoolApi
+                    School = new SchoolApiModel
                     {
                         Id = user.SchoolIdschoolNavigation.Idschool,
                         Name = user.SchoolIdschoolNavigation.Name
                     },
-                    Lessons = user.Lessons.Select(l => new LessonApi
+                    Lessons = user.Lessons.Select(l => new LessonApiModel
                     {
-                        Class = new ClassApi
+                        Class = new ClassApiModel
                         {
                             End = l.ClassIdclassNavigation.End,
                             Start = l.ClassIdclassNavigation.Start,
                             Id = l.ClassIdclass,
                             NumberOfClass = l.ClassIdclassNavigation.NumberOfClass,
-                            Course = new CourseApi
+                            Course = new CourseApiModel
                             {
                                 Id = l.ClassIdclassNavigation.CourseIdcourse,
                                 Name = l.ClassIdclassNavigation.CourseIdcourseNavigation.Name
@@ -81,13 +87,11 @@ namespace Skoleprotokol.Controllers
                         Present = l.Present
 
                     }).ToList(),
-                    Roles = user.UserRoles.Select(ur => new RoleApi
+                    Roles = user.UserRoles.Select(ur => new RoleApiModel
                     {
                         Id = ur.RoleIdrole,
                         Name = ur.RoleIdroleNavigation.Role1
                     }).ToList()
-
-
                 };
 
                 return result;

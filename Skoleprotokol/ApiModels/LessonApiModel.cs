@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.ApiModels
 {
-    public class LessonApi
+    public class LessonApiModel
     {
         public bool Present { get; set; }
-        public UserApi User { get; set; }
-        public ClassApi Class { get; set; }
+        public UserApiModel User { get; set; }
+        public ClassApiModel Class { get; set; }
     }
 }
