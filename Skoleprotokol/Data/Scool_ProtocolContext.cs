@@ -12,6 +12,7 @@ namespace Skoleprotokol.Data
 {
     public partial class Scool_ProtocolContext : DbContext
     {
+      
         public Scool_ProtocolContext()
         {
         }
@@ -330,9 +331,6 @@ namespace Skoleprotokol.Data
             .AddJsonFile("appsettings.json")
             .Build();
 
-            string mySqlConnectionStr = configuration.GetConnectionString("DefaultConnection");
-            optionsBuilder.UseLazyLoadingProxies().UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr));
-            optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning));
         }
 
 
