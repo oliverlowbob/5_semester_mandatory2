@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Skoleprotokol.Models;
+using Skoleprotokol.Data;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Skoleprotokol
 {
@@ -18,10 +21,14 @@ namespace Skoleprotokol
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
+            string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<Scool_ProtocolContext>(options => options.UseLazyLoadingProxies()
+            .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-           
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             //services.AddControllersWithViews()
             //    .AddNewtonsoftJson(options =>
