@@ -12,7 +12,6 @@ namespace Skoleprotokol.Controllers
     [ApiController]
     public class UserController : ApiController
     {
-
         public UserController()
         {
         }

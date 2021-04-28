@@ -69,7 +69,6 @@ namespace Skoleprotokol.Repository
 
         public async Task UpdateUser(UserApiModel args)
         {
-
             if (args == null)
             {
                 throw new ArgumentNullException("No args given");

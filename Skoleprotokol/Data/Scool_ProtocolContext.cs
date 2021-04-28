@@ -335,6 +335,7 @@ namespace Skoleprotokol.Data
             optionsBuilder.UseLazyLoadingProxies().UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr));
             optionsBuilder.ConfigureWarnings(w => w.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning));
         }
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
