@@ -3,24 +3,28 @@ using Skoleprotokol.Data;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Skoleprotokol.ApiModels;
+using Skoleprotokol.Dtos;
 using Skoleprotokol.Repository;
 using AutoMapper;
 
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
-    public class UserController : ApiController
+    public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly IMapper _mapper;
+        private readonly UserRepository userRepository;
+
+        public UserController(IMapper mapper)
         {
+            _mapper = mapper;
+            userRepository = new UserRepository(_mapper);
         }
 
-        UserRepository userRepository = new UserRepository();
 
         [HttpPut]
         [Route("users")]
-        public async Task UpdateUser([FromBody] UserApiModel args)
+        public async Task UpdateUser([FromBody] UserDto args)
         {
             await userRepository.UpdateUser(args);
         }
@@ -41,7 +45,7 @@ namespace Skoleprotokol.Controllers
 
         [HttpGet]
         [Route("users/{userId}")]
-        public async Task<UserApiModel> GetUser(int userId)
+        public async Task<UserDto> GetUser(int userId)
         {
             return await userRepository.GetUser(userId);
         }

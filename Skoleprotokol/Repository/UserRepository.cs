@@ -1,4 +1,4 @@
-﻿using Skoleprotokol.ApiModels;
+﻿using Skoleprotokol.Dtos;
 using Skoleprotokol.Data;
 using System;
 using System.Collections.Generic;
@@ -10,20 +10,16 @@ namespace Skoleprotokol.Repository
 {
     public class UserRepository
     {
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public UserRepository()
+        public UserRepository(IMapper mapper)
         {
-            MapperConfiguration configuration = new MapperConfiguration(cfg => {
-                cfg.AddProfile<Config.AutoMapping>();
-            });
-
-            _mapper = new Mapper(configuration);
+            _mapper = mapper;
         }
 
         public async Task EnableUser(int userId)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var transaction = await dbContext.Database.BeginTransactionAsync();
 
@@ -46,7 +42,7 @@ namespace Skoleprotokol.Repository
 
         public async Task DisableUser(int userId)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var transaction = await dbContext.Database.BeginTransactionAsync();
 
@@ -67,7 +63,7 @@ namespace Skoleprotokol.Repository
             }
         }
 
-        public async Task UpdateUser(UserApiModel args)
+        public async Task UpdateUser(UserDto args)
         {
             if (args == null)
             {
@@ -79,7 +75,7 @@ namespace Skoleprotokol.Repository
                 throw new ArgumentNullException("No user id");
             }
 
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var transaction = await dbContext.Database.BeginTransactionAsync();
 
@@ -108,15 +104,15 @@ namespace Skoleprotokol.Repository
             }
         }
 
-        public async Task<UserApiModel> GetUser(int userId)
+        public async Task<UserDto> GetUser(int userId)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var transaction = await dbContext.Database.BeginTransactionAsync();
 
                 var user = await dbContext.Users.FindAsync(userId);
 
-                var result = _mapper.Map<UserApiModel>(user);
+                var result = _mapper.Map<UserDto>(user);
 
                 await transaction.CommitAsync();
 

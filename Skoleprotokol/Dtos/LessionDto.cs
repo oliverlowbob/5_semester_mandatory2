@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skoleprotokol.ApiModels
+namespace Skoleprotokol.Dtos
 {
-    public class LessonApiModel
+    public class LessionDto
     {
         public bool Present { get; set; }
        [IgnoreMap]
-        public UserApiModel User { get; set; } 
-        public ClassApiModel Class { get; set; }
+        public UserDto User { get; set; } 
+        public ClassDto Class { get; set; }
     }
 }

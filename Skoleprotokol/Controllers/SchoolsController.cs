@@ -22,7 +22,7 @@ namespace Skoleprotokol.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<School>>> GetSchools()
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 return await dbContext.Schools.ToListAsync();
             }
@@ -33,7 +33,7 @@ namespace Skoleprotokol.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<School>> GetSchool(int id)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var school = await dbContext.Schools.FindAsync(id);
 
@@ -52,7 +52,7 @@ namespace Skoleprotokol.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSchool(int id, School school)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 if (id != school.Idschool)
                 {
@@ -87,7 +87,7 @@ namespace Skoleprotokol.Controllers
         [HttpPost]
         public async Task<ActionResult<School>> PostSchool(School school)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 dbContext.Schools.Add(school);
                 try
@@ -115,7 +115,7 @@ namespace Skoleprotokol.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<School>> DeleteSchool(int id)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 var school = await dbContext.Schools.FindAsync(id);
                 if (school == null)
@@ -133,7 +133,7 @@ namespace Skoleprotokol.Controllers
 
         private bool SchoolExists(int id)
         {
-            using (var dbContext = new Scool_ProtocolContext())
+            using (var dbContext = new SchoolProtocolContext())
             {
                 return dbContext.Schools.Any(e => e.Idschool == id);
             }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skoleprotokol.ApiModels
+namespace Skoleprotokol.Dtos
 {
-    public class ClassApiModel
+    public class ClassDto
     {
         public int Id { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int NumberOfClass { get; set; }
-        public CourseApiModel Course { get; set; }
+        public CourseDto Course { get; set; }
 
     }
 }

@@ -7,6 +7,9 @@ using Skoleprotokol.Models;
 using Skoleprotokol.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Skoleprotokol.Services;
+using Skoleprotokol.Dtos;
+using Skoleprotokol.Config;
 
 namespace Skoleprotokol
 {
@@ -22,9 +25,22 @@ namespace Skoleprotokol
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string mySqlConnectionStr = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<Scool_ProtocolContext>(options => options.UseLazyLoadingProxies()
-            .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
+            // Database context configuration
+            var mySqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
+
+            services.AddDbContext<SchoolProtocolContext>(options => options.UseLazyLoadingProxies()
+                .UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)));
+
+            // User login authentication service configuration
+            services.AddScoped<IAuthenticationService<UserAuthenticationDto>, AuthenticationService>();
+
+            // Auto mapper configuration
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapping()); // Our AutoMapping class in ./Config/
+            });
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddCors();
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Skoleprotokol.ApiModels
+namespace Skoleprotokol.Dtos
 {
-    public class UserApiModel
+    public class UserDto
     {
         public int Id { get; set; }
         public int SchoolId { get; set; }
@@ -15,8 +15,8 @@ namespace Skoleprotokol.ApiModels
         public string Password { get; set; }
         public bool? Active { get; set; }
 
-        public SchoolApiModel School { get; set; }
-        public IEnumerable<RoleApiModel> Roles { get; set; }
-        public IEnumerable<LessonApiModel> Lessons { get; set; }
+        public SchoolDto School { get; set; }
+        public IEnumerable<RoleDto> Roles { get; set; }
+        public IEnumerable<LessionDto> Lessons { get; set; }
     }
 }

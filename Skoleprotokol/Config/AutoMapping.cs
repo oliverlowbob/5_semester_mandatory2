@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Skoleprotokol.ApiModels;
+using Skoleprotokol.Dtos;
 using Skoleprotokol.Models;
 
 namespace Skoleprotokol.Config
@@ -9,7 +9,7 @@ namespace Skoleprotokol.Config
     {
         public AutoMapping()
         {
-            CreateMap<Class, ClassApiModel>()
+            CreateMap<Class, ClassDto>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Idclass))
@@ -17,7 +17,7 @@ namespace Skoleprotokol.Config
                 dest => dest.Course,
                 opt => opt.MapFrom(src => src.CourseIdcourseNavigation));
 
-            CreateMap<Course, CourseApiModel>()
+            CreateMap<Course, CourseDto>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Idcourse))
@@ -25,7 +25,7 @@ namespace Skoleprotokol.Config
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.Name));
 
-           CreateMap<Lesson, LessonApiModel>()
+           CreateMap<Lesson, LessionDto>()
                 .ForMember(
                 dest => dest.Class,
                 opt => opt.MapFrom(src => src.ClassIdclassNavigation))
@@ -36,7 +36,7 @@ namespace Skoleprotokol.Config
                 dest => dest.Present,
                 opt => opt.MapFrom(src => src.Present));
 
-            CreateMap<Role, RoleApiModel>()
+            CreateMap<Role, RoleDto>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Idrole))
@@ -45,12 +45,12 @@ namespace Skoleprotokol.Config
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.Role1));
 
-            CreateMap<School, SchoolApiModel>()
+            CreateMap<School, SchoolDto>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Idschool));
 
-            CreateMap<User, UserApiModel>()
+            CreateMap<User, UserDto>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Iduser))

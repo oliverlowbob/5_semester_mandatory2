@@ -14,9 +14,9 @@ namespace Skoleprotokol.Controllers
     [ApiController]
     public class AttendanceKeysController : ControllerBase
     {
-        private readonly Scool_ProtocolContext _context;
+        private readonly SchoolProtocolContext _context;
 
-        public AttendanceKeysController(Scool_ProtocolContext context)
+        public AttendanceKeysController(SchoolProtocolContext context)
         {
             _context = context;
         }
