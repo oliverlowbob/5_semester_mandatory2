@@ -31,6 +31,8 @@ namespace Skoleprotokol.Repository
 
                 if (user.Active == true)
                 {
+                    await transaction.CommitAsync();
+
                     return;
                 }
 
@@ -52,6 +54,8 @@ namespace Skoleprotokol.Repository
 
                 if (user.Active == false)
                 {
+                    await transaction.CommitAsync();
+
                     return;
                 }
 
