@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Skoleprotokol.ApiModels;
 using Skoleprotokol.Repository;
+using AutoMapper;
 
 namespace Skoleprotokol.Controllers
 {
@@ -12,11 +13,11 @@ namespace Skoleprotokol.Controllers
     public class UserController : ApiController
     {
 
-        UserRepository userRepository = new UserRepository();
-
         public UserController()
         {
         }
+
+        UserRepository userRepository = new UserRepository();
 
         [HttpPut]
         [Route("users")]

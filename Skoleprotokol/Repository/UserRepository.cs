@@ -4,11 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Skoleprotokol.Repository
 {
     public class UserRepository
     {
+        private readonly Mapper _mapper;
+
+        public UserRepository()
+        {
+            MapperConfiguration configuration = new MapperConfiguration(cfg => {
+                cfg.AddProfile<Config.AutoMapping>();
+            });
+
+            _mapper = new Mapper(configuration);
+        }
 
         public async Task EnableUser(int userId)
         {
@@ -102,43 +113,7 @@ namespace Skoleprotokol.Repository
 
                 var user = await dbContext.Users.FindAsync(userId);
 
-                var result = new UserApiModel
-                {
-                    Id = user.Iduser,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Password = user.Password,
-                    Active = user.Active,
-                    SchoolId = user.SchoolIdschool,
-                    School = new SchoolApiModel
-                    {
-                        Id = user.SchoolIdschoolNavigation.Idschool,
-                        Name = user.SchoolIdschoolNavigation.Name
-                    },
-                    Lessons = user.Lessons.Select(l => new LessonApiModel
-                    {
-                        Class = new ClassApiModel
-                        {
-                            End = l.ClassIdclassNavigation.End,
-                            Start = l.ClassIdclassNavigation.Start,
-                            Id = l.ClassIdclass,
-                            NumberOfClass = l.ClassIdclassNavigation.NumberOfClass,
-                            Course = new CourseApiModel
-                            {
-                                Id = l.ClassIdclassNavigation.CourseIdcourse,
-                                Name = l.ClassIdclassNavigation.CourseIdcourseNavigation.Name
-                            }
-                        },
-                        Present = l.Present
-
-                    }).ToList(),
-                    Roles = user.UserRoles.Select(ur => new RoleApiModel
-                    {
-                        Id = ur.RoleIdrole,
-                        Name = ur.RoleIdroleNavigation.Role1
-                    }).ToList()
-                };
+                var result = _mapper.Map<UserApiModel>(user);
 
                 await transaction.CommitAsync();
 

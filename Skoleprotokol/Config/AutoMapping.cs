@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AutoMapper;
+using Skoleprotokol.ApiModels;
 using Skoleprotokol.Models;
 
-namespace Skoleprotokol.ApiModels
+namespace Skoleprotokol.Config
 {
     public class AutoMapping : Profile
     {
@@ -27,7 +25,6 @@ namespace Skoleprotokol.ApiModels
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.Name));
 
-
            CreateMap<Lesson, LessonApiModel>()
                 .ForMember(
                 dest => dest.Class,
@@ -39,7 +36,6 @@ namespace Skoleprotokol.ApiModels
                 dest => dest.Present,
                 opt => opt.MapFrom(src => src.Present));
 
-
             CreateMap<Role, RoleApiModel>()
                 .ForMember(
                 dest => dest.Id,
@@ -49,12 +45,10 @@ namespace Skoleprotokol.ApiModels
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.Role1));
 
-
             CreateMap<School, SchoolApiModel>()
                 .ForMember(
                 dest => dest.Id,
                 opt => opt.MapFrom(src => src.Idschool));
-
 
             CreateMap<User, UserApiModel>()
                 .ForMember(
@@ -73,14 +67,6 @@ namespace Skoleprotokol.ApiModels
                 dest => dest.Lessons,
                 opt => opt.MapFrom(src => src.Lessons.Where(l => l.UserIduser == src.Iduser)
                 .ToList())).ReverseMap();
-
-
-           
-
-
         }
-    
-
-        
     }
 }
