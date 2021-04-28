@@ -31,9 +31,17 @@ namespace Skoleprotokol.Controllers
         [Route("users")]
         public async Task UpdateUser([FromBody] UserApiModel args)
         {
+
                 User user = await _repository.Get(args.Id);
+
                _repository.GetEntityEntry(user).CurrentValues.SetValues(args);
+
+
+
+
+
                 await _repository.SaveAll();
+          
         }
 
         [HttpPost]
