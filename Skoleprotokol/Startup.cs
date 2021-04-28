@@ -28,7 +28,6 @@ namespace Skoleprotokol
 
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             //services.AddControllersWithViews()
             //    .AddNewtonsoftJson(options =>
