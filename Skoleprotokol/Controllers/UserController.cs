@@ -24,13 +24,14 @@ namespace Skoleprotokol.Controllers
         }
 
 
-        /*[HttpPut]
-        [Route("users")]
-        public async Task UpdateUser([FromBody] UserDto args)
+        [HttpPut]
+        [Route("users/{id}")]
+        public async Task<int> UpdateUser(int id, [FromBody] UserDto user)
         {
-            await _userService.UpdateUser(args);
+            return await _userService.UpdateUserByIdAsync(id, user);
         }
 
+        /*
         [HttpPost]
         [Route("users/enable/{userId}")]
         public async Task EnableUser(int userId)
@@ -53,10 +54,10 @@ namespace Skoleprotokol.Controllers
         }
 
         [HttpGet]
-        [Route("users/{userId}")]
-        public async Task<UserDto> GetUser(int userId)
+        [Route("users/{id}")]
+        public async Task<UserDto> GetUser(int id)
         {
-            return await _userService.GetUserByIdAsync(userId);
+            return await _userService.GetUserByIdAsync(id);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
+using Skoleprotokol.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,19 +40,37 @@ namespace Skoleprotokol.Services
             }
         }
 
-        public async Task<bool> UpdateUserByIdAsync(int userId, UserDto user)
+        public async Task<int> UpdateUserByIdAsync(int id, UserDto user)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Iduser == userId);
+                var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Iduser == id);
 
                 if (userEntity != null)
                 {
-                    context.Update(user);
-                    context.SaveChanges();
-                    return true;
+                    if (!string.IsNullOrEmpty(user.FirstName))
+                    {
+                        userEntity.FirstName = user.FirstName;
+                    }
+
+                    if (!string.IsNullOrEmpty(user.LastName))
+                    {
+                        userEntity.LastName = user.LastName;
+                    }
+
+                    if (!string.IsNullOrEmpty(user.Email))
+                    {
+                        userEntity.Email = user.Email;
+                    }
+
+                    if (user.Active.HasValue)
+                    {
+                        userEntity.Active = user.Active;
+                    }
+
+                    return await context.SaveChangesAsync();
                 }
-                return false;
+                return 0;
             }
         }
 
