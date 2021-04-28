@@ -26,6 +26,8 @@ namespace Skoleprotokol
             services.AddDbContext<Scool_ProtocolContext>(options => options.UseLazyLoadingProxies()
             .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
+            services.AddCors();
+
             services.AddControllers();
         }
 
@@ -41,6 +43,12 @@ namespace Skoleprotokol
 
             app.UseRouting();
 
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
             //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
