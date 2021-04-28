@@ -28,11 +28,12 @@ namespace Skoleprotokol
             // Database context configuration
             var mySqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
 
-            services.AddDbContext<SchoolProtocolContext>(options => options.UseLazyLoadingProxies()
+            services.AddDbContextFactory<SchoolProtocolContext>(options => options.UseLazyLoadingProxies()
                 .UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)));
 
             // User login authentication service configuration
             services.AddScoped<IAuthenticationService<UserAuthenticationDto>, AuthenticationService>();
+            services.AddScoped<IUserService<UserDto>, UserService>();
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>

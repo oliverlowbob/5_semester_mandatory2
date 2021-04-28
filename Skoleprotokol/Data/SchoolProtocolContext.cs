@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Skoleprotokol.Models;
 
 #nullable disable
@@ -12,7 +13,7 @@ namespace Skoleprotokol.Data
 {
     public partial class SchoolProtocolContext : DbContext
     {
-      
+        [ActivatorUtilitiesConstructor]
         public SchoolProtocolContext()
         {
         }

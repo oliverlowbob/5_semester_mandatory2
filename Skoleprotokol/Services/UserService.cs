@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
@@ -18,24 +19,50 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<UserDto> GetUserById(int userId)
+        public async Task<UserDto> GetUserByIdAsync(int userId)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var user = await context.Users.FindAsync(userId);
-                var userDto = _mapper.Map<UserDto>(user);
+                var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Iduser == userId);
+                var userDto = _mapper.Map<UserDto>(userEntity);
                 return userDto;
             }
         }
 
-        public Task<UserDto> GetUserByUsername(string username)
+        public async Task<UserDto> GetUserByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                var userDto = _mapper.Map<UserDto>(userEntity);
+                return userDto;
+            }
         }
 
-        public Task<bool> UpdateUserById(int userId, UserDto user)
+        public async Task<bool> UpdateUserByIdAsync(int userId, UserDto user)
         {
-            throw new NotImplementedException();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var userEntity = await context.Users.FirstOrDefaultAsync(u => u.Iduser == userId);
+
+                if (userEntity != null)
+                {
+                    context.Update(user);
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var userEntities = await context.Users.ToListAsync();
+                var userDtos = _mapper.Map<IEnumerable<UserDto>>(userEntities);
+                return userDtos;
+            }
         }
     }
 }

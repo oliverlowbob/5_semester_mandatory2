@@ -26,7 +26,7 @@ namespace Skoleprotokol.Controllers
         [HttpPost]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserAuthenticationDto userAuthentication)
         {
-            var user = await _userService.GetUserByUsername(userAuthentication.Email);
+            var user = await _userService.GetUserByEmailAsync(userAuthentication.Email);
 
             if (await _authenticationService.AuthenticateUserAsync(userAuthentication, ""))
             {

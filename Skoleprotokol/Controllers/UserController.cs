@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Repository;
 using AutoMapper;
+using Skoleprotokol.Services;
+using System.Collections.Generic;
 
 namespace Skoleprotokol.Controllers
 {
@@ -13,41 +15,48 @@ namespace Skoleprotokol.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly UserRepository userRepository;
+        private readonly IUserService<UserDto> _userService;
 
-        public UserController(IMapper mapper)
+        public UserController(IUserService<UserDto> userService, IMapper mapper)
         {
             _mapper = mapper;
-            userRepository = new UserRepository(_mapper);
+            _userService = userService;
         }
 
 
-        [HttpPut]
+        /*[HttpPut]
         [Route("users")]
         public async Task UpdateUser([FromBody] UserDto args)
         {
-            await userRepository.UpdateUser(args);
+            await _userService.UpdateUser(args);
         }
 
         [HttpPost]
         [Route("users/enable/{userId}")]
         public async Task EnableUser(int userId)
         {
-            await userRepository.EnableUser(userId);
+            await _userService.EnableUser(userId);
         }
 
         [HttpPost]
         [Route("users/disable/{userId}")]
         public async Task DisableUser(int userId)
         {
-            await userRepository.DisableUser(userId);
+            await _userService.DisableUser(userId);
+        }*/
+
+        [HttpGet]
+        [Route("users")]
+        public async Task<IEnumerable<UserDto>> GetAllUsers(int userId)
+        {
+            return await _userService.GetAllUsersAsync();
         }
 
         [HttpGet]
         [Route("users/{userId}")]
         public async Task<UserDto> GetUser(int userId)
         {
-            return await userRepository.GetUser(userId);
+            return await _userService.GetUserByIdAsync(userId);
         }
     }
 }

@@ -10,11 +10,15 @@ namespace Skoleprotokol.Repository
 {
     public class UserRepository
     {
-        private readonly IMapper _mapper;
+        private readonly Mapper _mapper;
 
-        public UserRepository(IMapper mapper)
+        public UserRepository()
         {
-            _mapper = mapper;
+            MapperConfiguration configuration = new MapperConfiguration(cfg => {
+                cfg.AddProfile<Config.AutoMapping>();
+            });
+
+            _mapper = new Mapper(configuration);
         }
 
         public async Task EnableUser(int userId)
