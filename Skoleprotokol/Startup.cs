@@ -26,13 +26,7 @@ namespace Skoleprotokol
             services.AddDbContext<Scool_ProtocolContext>(options => options.UseLazyLoadingProxies()
             .UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
 
-            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-
-            //services.AddControllersWithViews()
-            //    .AddNewtonsoftJson(options =>
-            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            //);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
