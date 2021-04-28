@@ -10,7 +10,7 @@ using Skoleprotokol.Models;
 
 namespace Skoleprotokol.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SchoolsController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace Skoleprotokol.Controllers
         {
         }
 
-        // GET: api/Schools
+        // GET: /Schools
         [HttpGet]
         public async Task<ActionResult<IEnumerable<School>>> GetSchools()
         {
@@ -29,7 +29,7 @@ namespace Skoleprotokol.Controllers
 
         }
 
-        // GET: api/Schools/5
+        // GET: /Schools/5
         [HttpGet("{id}")]
         public async Task<ActionResult<School>> GetSchool(int id)
         {
@@ -46,7 +46,7 @@ namespace Skoleprotokol.Controllers
             }
         }
 
-        // PUT: api/Schools/5
+        // PUT: /Schools/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -81,7 +81,7 @@ namespace Skoleprotokol.Controllers
             }
         }
 
-        // POST: api/Schools
+        // POST: /Schools
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
@@ -111,7 +111,7 @@ namespace Skoleprotokol.Controllers
 
         }
 
-        // DELETE: api/Schools/5
+        // DELETE: /Schools/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<School>> DeleteSchool(int id)
         {
