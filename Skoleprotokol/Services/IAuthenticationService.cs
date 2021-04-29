@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public interface IAuthenticationService<TUserAuthentication> where TUserAuthentication : class
+    public interface IAuthenticationService<TUserAuthCreds> where TUserAuthCreds : class
     {
-        Task<bool> AuthenticateUserAsync(TUserAuthentication userAuthentication, string hashedPassword);
+        Task<bool> AuthenticateUserAsync(TUserAuthCreds userLoginCredentials, string hashedPassword);
     }
 }

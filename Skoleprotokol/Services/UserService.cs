@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public class UserService : IUserService<UserDto>
+    public class UserService : IUserService<UserDto, NewUserDto>
     {
         private readonly IDbContextFactory<SchoolProtocolContext> _contextFactory;
         private readonly IMapper _mapper;
@@ -40,7 +40,7 @@ namespace Skoleprotokol.Services
             }
         }
 
-        public async Task<int> UpdateUserByIdAsync(int id, UserDto user)
+        public async Task<bool> UpdateUserByIdAsync(int id, UserDto user)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -68,9 +68,9 @@ namespace Skoleprotokol.Services
                         userEntity.Active = user.Active;
                     }
 
-                    return await context.SaveChangesAsync();
+                    return await context.SaveChangesAsync() == 1;
                 }
-                return 0;
+                return false;
             }
         }
 
@@ -81,6 +81,20 @@ namespace Skoleprotokol.Services
                 var userEntities = await context.Users.ToListAsync();
                 var userDtos = _mapper.Map<IEnumerable<UserDto>>(userEntities);
                 return userDtos;
+            }
+        }
+
+        public async Task<bool> CreateNewUser(NewUserDto user)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var userEntity = _mapper.Map<User>(user);
+
+                // Hash user password
+                userEntity.Password = BCrypt.Net.BCrypt.HashPassword(userEntity.Password, 12);
+
+                await context.Users.AddAsync(userEntity);
+                return await context.SaveChangesAsync() == 1;
             }
         }
     }

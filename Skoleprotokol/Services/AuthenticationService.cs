@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public class AuthenticationService : IAuthenticationService<UserAuthenticationDto>
+    public class AuthenticationService : IAuthenticationService<UserLoginDto>
     {
-        public async Task<bool> AuthenticateUserAsync(UserAuthenticationDto userAuthentication, string hashedPassword)
+        public async Task<bool> AuthenticateUserAsync(UserLoginDto userLoginCredentials, string hashedPassword)
         {
             return await Task.Run(() =>
             {
-                return BCrypt.Net.BCrypt.Verify(userAuthentication.Password, hashedPassword);
+                return BCrypt.Net.BCrypt.Verify(userLoginCredentials.Password, hashedPassword);
             });
         }
     }

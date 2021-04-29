@@ -25,15 +25,13 @@ namespace Skoleprotokol
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Database context configuration
             var mySqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
 
-            services.AddDbContextFactory<SchoolProtocolContext>(options => options.UseLazyLoadingProxies()
-                .UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)));
+            services.AddDbContextFactory<SchoolProtocolContext>(options => 
+                options.UseLazyLoadingProxies().UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)));
 
-            // User login authentication service configuration
-            services.AddScoped<IAuthenticationService<UserAuthenticationDto>, AuthenticationService>();
-            services.AddScoped<IUserService<UserDto>, UserService>();
+            services.AddScoped<IAuthenticationService<UserLoginDto>, AuthenticationService>();
+            services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>

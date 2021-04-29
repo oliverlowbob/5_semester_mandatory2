@@ -15,18 +15,24 @@ namespace Skoleprotokol.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IUserService<UserDto> _userService;
+        private readonly IUserService<UserDto, NewUserDto> _userService;
 
-        public UserController(IUserService<UserDto> userService, IMapper mapper)
+        public UserController(IUserService<UserDto, NewUserDto> userService, IMapper mapper)
         {
             _mapper = mapper;
             _userService = userService;
         }
 
+        [HttpPost]
+        [Route("users")]
+        public async Task<bool> CreateUser([FromBody] NewUserDto newUser)
+        {
+            return await _userService.CreateNewUser(newUser);
+        }
 
         [HttpPut]
         [Route("users/{id}")]
-        public async Task<int> UpdateUser(int id, [FromBody] UserDto user)
+        public async Task<bool> UpdateUser(int id, [FromBody] UserDto user)
         {
             return await _userService.UpdateUserByIdAsync(id, user);
         }

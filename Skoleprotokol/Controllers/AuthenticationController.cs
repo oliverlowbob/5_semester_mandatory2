@@ -13,25 +13,26 @@ namespace Skoleprotokol.Controllers
     [Route("api/authentication")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationService<UserAuthenticationDto> _authenticationService;
-        private readonly IUserService<UserDto> _userService;
+        private readonly IAuthenticationService<UserLoginDto> _authenticationService;
+        private readonly IUserService<UserDto, NewUserDto> _userService;
 
-        public AuthenticationController(IAuthenticationService<UserAuthenticationDto> authenticationService,
-                IUserService<UserDto> userService)
+        public AuthenticationController(IAuthenticationService<UserLoginDto> authenticationService,
+                IUserService<UserDto, NewUserDto> userService)
         {
             _authenticationService = authenticationService;
             _userService = userService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AuthenticateUser([FromBody] UserAuthenticationDto userAuthentication)
+        public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginDto userAuthentication)
         {
             var user = await _userService.GetUserByEmailAsync(userAuthentication.Email);
 
-            if (await _authenticationService.AuthenticateUserAsync(userAuthentication, ""))
+            if (await _authenticationService.AuthenticateUserAsync(userAuthentication, user.Password))
             {
                 return Ok();
             }
+
             return BadRequest();
         }
     }
