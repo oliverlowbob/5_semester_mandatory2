@@ -8,7 +8,7 @@ namespace Skoleprotokol.Services
 {
     public interface IUserService<TUser, TNewUser>
     {
-        Task<bool> UpdateUserByIdAsync(int userId, TUser user);
+        Task<TUser> UpdateUserByIdAsync(int userId, TUser user);
         Task<IEnumerable<TUser>> GetAllUsersAsync();
         Task<TUser> GetUserByIdAsync(int userId);
         Task<TUser> GetUserByEmailAsync(string username);

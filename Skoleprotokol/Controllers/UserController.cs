@@ -25,32 +25,39 @@ namespace Skoleprotokol.Controllers
 
         [HttpPost]
         [Route("users")]
-        public async Task<bool> CreateUser([FromBody] NewUserDto newUser)
+        public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
         {
-            return await _userService.CreateNewUser(newUser);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            if (await _userService.CreateNewUser(newUser))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         [HttpPut]
         [Route("users/{id}")]
-        public async Task<bool> UpdateUser(int id, [FromBody] UserDto user)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto user)
         {
-            return await _userService.UpdateUserByIdAsync(id, user);
-        }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        /*
-        [HttpPost]
-        [Route("users/enable/{userId}")]
-        public async Task EnableUser(int userId)
-        {
-            await _userService.EnableUser(userId);
-        }
+            var updatedUser = await _userService.UpdateUserByIdAsync(id, user);
 
-        [HttpPost]
-        [Route("users/disable/{userId}")]
-        public async Task DisableUser(int userId)
-        {
-            await _userService.DisableUser(userId);
-        }*/
+            if (updatedUser != null)
+            {
+                return Ok(updatedUser);
+            }
+
+            return BadRequest();
+        }
 
         [HttpGet]
         [Route("users")]

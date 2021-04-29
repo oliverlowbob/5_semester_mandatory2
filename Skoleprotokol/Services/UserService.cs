@@ -40,7 +40,7 @@ namespace Skoleprotokol.Services
             }
         }
 
-        public async Task<bool> UpdateUserByIdAsync(int id, UserDto user)
+        public async Task<UserDto> UpdateUserByIdAsync(int id, UserDto user)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -68,9 +68,11 @@ namespace Skoleprotokol.Services
                         userEntity.Active = user.Active;
                     }
 
-                    return await context.SaveChangesAsync() == 1;
+                    await context.SaveChangesAsync();
+
+                    return _mapper.Map<UserDto>(userEntity);
                 }
-                return false;
+                return null;
             }
         }
 

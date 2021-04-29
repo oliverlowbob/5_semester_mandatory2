@@ -10,7 +10,7 @@ namespace Skoleprotokol.Controllers
 {
 
     [ApiController]
-    [Route("api/authentication")]
+    [Route("api/auth")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService<UserLoginDto> _authenticationService;
@@ -24,8 +24,14 @@ namespace Skoleprotokol.Controllers
         }
 
         [HttpPost]
+        [Route("authenticate")]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginDto userAuthentication)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _userService.GetUserByEmailAsync(userAuthentication.Email);
 
             if (await _authenticationService.AuthenticateUserAsync(userAuthentication, user.Password))
