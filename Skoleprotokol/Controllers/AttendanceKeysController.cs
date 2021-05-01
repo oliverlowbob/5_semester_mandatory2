@@ -1,124 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Skoleprotokol.Data;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Skoleprotokol.Data;
-using Skoleprotokol.Models;
+using Skoleprotokol.Dtos;
+using Skoleprotokol.Repository;
+using AutoMapper;
+using Skoleprotokol.Services;
+using System.Collections.Generic;
 
 namespace Skoleprotokol.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AttendanceKeysController : ControllerBase
     {
-        private readonly SchoolProtocolContext _context;
+        //TODO: Create same service pattern and DTO for attendance keys
 
-        public AttendanceKeysController(SchoolProtocolContext context)
+        private readonly IMapper _mapper;
+        private readonly IUserService<UserDto, NewUserDto> _userService;
+
+        public AttendanceKeysController(IUserService<UserDto, NewUserDto> userService, IMapper mapper)
         {
-            _context = context;
+            _mapper = mapper;
+            _userService = userService;
         }
 
-        // GET: api/AttendanceKeys
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AttendanceKey>>> GetAttendanceKeys()
+        [HttpPost]
+        [Route("attendancekey/{classId}")]
+        public async Task<IActionResult> GenerateKey(int classId)
         {
-            return await _context.AttendanceKeys.ToListAsync();
-        }
 
-        // GET: api/AttendanceKeys/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AttendanceKey>> GetAttendanceKey(string id)
-        {
-            var attendanceKey = await _context.AttendanceKeys.FindAsync(id);
+            Random random = new Random();
 
-            if (attendanceKey == null)
-            {
-                return NotFound();
-            }
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-            return attendanceKey;
-        }
+            var generatedId = Enumerable.Repeat(chars, 10)
+              .Select(s => s[random.Next(s.Length)]).ToList();
 
-        // PUT: api/AttendanceKeys/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAttendanceKey(string id, AttendanceKey attendanceKey)
-        {
-            if (id != attendanceKey.IdattendanceKey)
+            if (classId == 0)
             {
                 return BadRequest();
             }
 
-            _context.Entry(attendanceKey).State = EntityState.Modified;
-
-            try
+            //TODO: create service for attendance keys, and create a new attendance key in db for given class 
+            if (true)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AttendanceKeyExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Created("Attendance key generated", generatedId);
             }
 
-            return NoContent();
+            return BadRequest();
         }
 
-        // POST: api/AttendanceKeys
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<AttendanceKey>> PostAttendanceKey(AttendanceKey attendanceKey)
+        [Route("attendancekey/{classId}")]
+        public async Task<IActionResult> CheckAttendanceKey(string attendanceKey, int classId, int userId)
         {
-            _context.AttendanceKeys.Add(attendanceKey);
-            try
+            if (String.IsNullOrEmpty(attendanceKey))
             {
-                await _context.SaveChangesAsync();
+                return BadRequest();
             }
-            catch (DbUpdateException)
+            if (classId == 0)
             {
-                if (AttendanceKeyExists(attendanceKey.IdattendanceKey))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
+            }
+            if (userId == 0)
+            {
+                return BadRequest();
             }
 
-            return CreatedAtAction("GetAttendanceKey", new { id = attendanceKey.IdattendanceKey }, attendanceKey);
-        }
-
-        // DELETE: api/AttendanceKeys/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<AttendanceKey>> DeleteAttendanceKey(string id)
-        {
-            var attendanceKey = await _context.AttendanceKeys.FindAsync(id);
-            if (attendanceKey == null)
+            //TODO: get the stored procedure from database and check if attendance key is valid 
+            //TODO: if attendance key is valid returns true, set the present to true in the lesson table for given userId and classId
+            if (true)
             {
-                return NotFound();
+                return Ok();
             }
 
-            _context.AttendanceKeys.Remove(attendanceKey);
-            await _context.SaveChangesAsync();
-
-            return attendanceKey;
+            return BadRequest();
         }
 
-        private bool AttendanceKeyExists(string id)
-        {
-            return _context.AttendanceKeys.Any(e => e.IdattendanceKey == id);
-        }
+
     }
 }
