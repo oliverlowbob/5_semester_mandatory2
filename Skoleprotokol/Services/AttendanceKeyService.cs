@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,18 +48,29 @@ namespace Skoleprotokol.Services
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                var isValid = await context.Database
-                    .ExecuteSqlRawAsync($"call scool_protocol.get_attendance_key_valid('{attendanceKey}')", new List<bool>());
+                using (MySqlConnection lconn = new MySqlConnection(context.Database.GetDbConnection().ConnectionString))
+                {
+                    lconn.Open();
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        cmd.Connection = lconn;
+                        cmd.CommandText = "get_attendance_key_valid"; // The name of the Stored Proc
+                        cmd.CommandType = CommandType.StoredProcedure; // It is a Stored Proc
 
-                //var isValidList = await context.Set<Int32>
-                //    .FromSqlRaw($"call scool_protocol.get_attendance_key_valid('{attendanceKey}')")
-                //    .ToListAsync();
+                        cmd.Parameters.AddWithValue("@key_id", attendanceKey);
 
+                        cmd.Parameters.AddWithValue("@isValid", MySqlDbType.Int16);
+                        cmd.Parameters["@isValid"].Direction = ParameterDirection.Output; // from System.Data
+
+                        await cmd.ExecuteReaderAsync();
+
+                        Object obj = cmd.Parameters["@isValid"].Value;
+                        var isValid = (Int32)obj;    // more useful datatype
+
+                        return Convert.ToBoolean(isValid);
+                    }
+                }
             }
-
-            return true;
         }
-
-
     }
 }
