@@ -17,53 +17,41 @@ namespace Skoleprotokol.Controllers
         //TODO: Create same service pattern and DTO for attendance keys
 
         private readonly IMapper _mapper;
-        private readonly IUserService<UserDto, NewUserDto> _userService;
+        private readonly IAttendanceKeyService<AttendanceKeyDto, string> _attendanceKeyService;
 
-        public AttendanceKeysController(IUserService<UserDto, NewUserDto> userService, IMapper mapper)
+        public AttendanceKeysController(IAttendanceKeyService<AttendanceKeyDto, string> attendanceKeyService, IMapper mapper)
         {
             _mapper = mapper;
-            _userService = userService;
+            _attendanceKeyService = attendanceKeyService;
         }
 
         [HttpPost]
-        [Route("attendancekey/{classId}")]
-        public async Task<IActionResult> GenerateKey(int classId)
+        [Route("attendancekey")]
+        public async Task<IActionResult> GenerateKey(AttendanceKeyDto attendanceKey)
         {
-
-            Random random = new Random();
-
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-            var generatedId = Enumerable.Repeat(chars, 10)
-              .Select(s => s[random.Next(s.Length)]).ToList();
-
-            if (classId == 0)
+            if (attendanceKey.LessonUserIdclass == 0)
+            {
+                return BadRequest();
+            }
+            if (attendanceKey.LessonUserIduser == 0)
             {
                 return BadRequest();
             }
 
             //TODO: create service for attendance keys, and create a new attendance key in db for given class 
-            if (true)
+            if (await _attendanceKeyService.Generate(attendanceKey))
             {
-                return Created("Attendance key generated", generatedId);
+                return Created("Attendance key generated", "Attendance key generated");
             }
 
             return BadRequest();
         }
 
-        [HttpPost]
-        [Route("attendancekey/{classId}")]
-        public async Task<IActionResult> CheckAttendanceKey(string attendanceKey, int classId, int userId)
+        [HttpGet]
+        [Route("attendancekey/{attendanceKey}")]
+        public async Task<IActionResult> IsValid(string attendanceKey)
         {
             if (String.IsNullOrEmpty(attendanceKey))
-            {
-                return BadRequest();
-            }
-            if (classId == 0)
-            {
-                return BadRequest();
-            }
-            if (userId == 0)
             {
                 return BadRequest();
             }

@@ -9,7 +9,7 @@ namespace Skoleprotokol.Dtos
     public class LessonDto
     {
         public bool Present { get; set; }
-       [IgnoreMap]
+        [IgnoreMap]
         public UserDto User { get; set; } 
         public ClassDto Class { get; set; }
     }
