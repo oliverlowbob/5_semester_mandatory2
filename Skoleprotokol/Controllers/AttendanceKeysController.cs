@@ -15,15 +15,21 @@ namespace Skoleprotokol.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IAttendanceKeyService<AttendanceKeyDto, string> _attendanceKeyService;
+        private readonly ILessonService<Int32, Int32> _lessonService;
 
-        public AttendanceKeysController(IAttendanceKeyService<AttendanceKeyDto, string> attendanceKeyService, IMapper mapper)
+        public AttendanceKeysController(
+            IAttendanceKeyService<AttendanceKeyDto, string> attendanceKeyService, 
+            IMapper mapper, 
+            ILessonService<Int32, Int32> lessonService
+        )
         {
             _mapper = mapper;
             _attendanceKeyService = attendanceKeyService;
+            _lessonService = lessonService;
         }
 
         [HttpPost]
-        [Route("attendancekey")]
+        [Route("attendancekey/generate")]
         public async Task<IActionResult> GenerateKey(AttendanceKeyDto attendanceKey)
         {
             if (attendanceKey.LessonUserIdclass == 0)
@@ -45,18 +51,30 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
-        [HttpGet]
-        [Route("attendancekey/{attendanceKey}")]
-        public async Task<IActionResult> IsValid(string attendanceKey)
+        [HttpPost]
+        [Route("attendancekey/validate")]
+        public async Task<IActionResult> IsValid(AttendanceKeyDto attendanceKey)
         {
-            if (String.IsNullOrEmpty(attendanceKey))
+            if (String.IsNullOrEmpty(attendanceKey.Value))
             {
                 return BadRequest();
             }
 
-            var isValid = await _attendanceKeyService.IsValid(attendanceKey);
+            var isValid = await _attendanceKeyService.IsValid(attendanceKey.Value);
 
-            return Ok(isValid);
+            if (isValid)
+            {
+                var isSuccess = await _lessonService.MakePresent(attendanceKey.LessonUserIdclass, attendanceKey.LessonUserIduser);
+
+                if (isSuccess)
+                {
+                    return Ok(isValid);
+                }
+
+                return BadRequest("Wrong userId or classId");
+            }
+
+            return BadRequest("Attendance key is outdated/wrong");
         }
 
 

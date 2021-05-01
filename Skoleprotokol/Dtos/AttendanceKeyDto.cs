@@ -6,6 +6,7 @@ namespace Skoleprotokol.Dtos
     {
         public int LessonUserIduser { get; set; }
         public int LessonUserIdclass { get; set; }
+        public string Value { get; set; }
 
     }
 }

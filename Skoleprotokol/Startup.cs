@@ -10,6 +10,7 @@ using Skoleprotokol.Services;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Config;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 
 namespace Skoleprotokol
 {
@@ -33,6 +34,7 @@ namespace Skoleprotokol
             services.AddScoped<IAuthenticationService<UserLoginDto>, AuthenticationService>();
             services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string>, AttendanceKeyService>();
+            services.AddScoped<ILessonService<Int32, Int32>, LessonService>();
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>
