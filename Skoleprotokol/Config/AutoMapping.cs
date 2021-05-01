@@ -13,11 +13,16 @@ namespace Skoleprotokol.Config
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Idclass))
                 .ForMember(dest => dest.Course, opt => opt.MapFrom(src => src.CourseIdcourseNavigation));
 
+            CreateMap<AttendanceKey, AttendanceKeyDto>()
+                .ForMember(dest => dest.LessonUserIdclass, opt => opt.MapFrom(src => src.LessonClassIdclass))
+                .ForMember(dest => dest.LessonUserIduser, opt => opt.MapFrom(src => src.LessonUserIduser))
+                .ReverseMap();
+
             CreateMap<Course, CourseDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Idcourse))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
-           CreateMap<Lesson, LessionDto>()
+           CreateMap<Lesson, LessonDto>()
                 .ForMember(dest => dest.Class, opt => opt.MapFrom(src => src.ClassIdclassNavigation))
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.UserIduserNavigation))
                 .ForMember(dest => dest.Present, opt => opt.MapFrom(src => src.Present));

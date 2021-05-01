@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Dtos
 {
-    public class LessionDto
+    public class LessonDto
     {
         public bool Present { get; set; }
        [IgnoreMap]

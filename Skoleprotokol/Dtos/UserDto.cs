@@ -17,6 +17,6 @@ namespace Skoleprotokol.Dtos
 
         public SchoolDto School { get; set; }
         public IEnumerable<RoleDto> Roles { get; set; }
-        public IEnumerable<LessionDto> Lessons { get; set; }
+        public IEnumerable<LessonDto> Lessons { get; set; }
     }
 }

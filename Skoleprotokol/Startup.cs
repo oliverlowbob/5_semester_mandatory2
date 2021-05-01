@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Skoleprotokol.Models;
 using Skoleprotokol.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Services;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Config;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Skoleprotokol
 {
@@ -28,10 +28,11 @@ namespace Skoleprotokol
             var mySqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
 
             services.AddDbContextFactory<SchoolProtocolContext>(options => 
-                options.UseLazyLoadingProxies().UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)));
+                options.UseLazyLoadingProxies().UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)).ConfigureWarnings(w => w.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning)));
 
             services.AddScoped<IAuthenticationService<UserLoginDto>, AuthenticationService>();
             services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
+            services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string>, AttendanceKeyService>();
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>
