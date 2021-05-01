@@ -8,7 +8,7 @@ namespace Skoleprotokol.Services
 {
     public interface IAttendanceKeyService<TAttendanceKeyDto, TAttendanceKey>
     {
-        Task<bool> Generate(AttendanceKeyDto attendanceKeyDto);
+        Task<string> Generate(AttendanceKeyDto attendanceKeyDto);
         Task<bool> IsValid(string attendanceKey);
     }
 }

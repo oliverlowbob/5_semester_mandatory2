@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
-using Skoleprotokol.Repository;
 using AutoMapper;
 using Skoleprotokol.Services;
 using System.Collections.Generic;
@@ -14,8 +13,6 @@ namespace Skoleprotokol.Controllers
     [ApiController]
     public class AttendanceKeysController : ControllerBase
     {
-        //TODO: Create same service pattern and DTO for attendance keys
-
         private readonly IMapper _mapper;
         private readonly IAttendanceKeyService<AttendanceKeyDto, string> _attendanceKeyService;
 
@@ -38,10 +35,11 @@ namespace Skoleprotokol.Controllers
                 return BadRequest();
             }
 
-            //TODO: create service for attendance keys, and create a new attendance key in db for given class 
-            if (await _attendanceKeyService.Generate(attendanceKey))
+            var generatedKey = await _attendanceKeyService.Generate(attendanceKey);
+
+            if (!String.IsNullOrEmpty(generatedKey))
             {
-                return Created("Attendance key generated", "Attendance key generated");
+                return Created("Attendance key generated", generatedKey);
             }
 
             return BadRequest();
@@ -56,14 +54,9 @@ namespace Skoleprotokol.Controllers
                 return BadRequest();
             }
 
-            //TODO: get the stored procedure from database and check if attendance key is valid 
-            //TODO: if attendance key is valid returns true, set the present to true in the lesson table for given userId and classId
-            if (true)
-            {
-                return Ok();
-            }
+            var isValid = await _attendanceKeyService.IsValid(attendanceKey);
 
-            return BadRequest();
+            return Ok(isValid);
         }
 
 

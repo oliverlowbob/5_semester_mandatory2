@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
-using Skoleprotokol.Repository;
 using AutoMapper;
 using Skoleprotokol.Services;
 using System.Collections.Generic;

@@ -22,7 +22,7 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> Generate(AttendanceKeyDto attendanceKeyDto) 
+        public async Task<string> Generate(AttendanceKeyDto attendanceKeyDto) 
         {
             var id = Guid.NewGuid().ToString("N");
 
@@ -36,12 +36,25 @@ namespace Skoleprotokol.Services
 
                 await context.AttendanceKeys.AddAsync(attendanceKeyEntity);
 
-                return await context.SaveChangesAsync() == 1;
+                await context.SaveChangesAsync();
+
+                return attendanceKey;
             }
         }
 
         public async Task<bool> IsValid(string attendanceKey)
         {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var isValid = await context.Database
+                    .ExecuteSqlRawAsync($"call scool_protocol.get_attendance_key_valid('{attendanceKey}')", new List<bool>());
+
+                //var isValidList = await context.Set<Int32>
+                //    .FromSqlRaw($"call scool_protocol.get_attendance_key_valid('{attendanceKey}')")
+                //    .ToListAsync();
+
+            }
+
             return true;
         }
 
