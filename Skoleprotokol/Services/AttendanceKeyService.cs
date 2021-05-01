@@ -6,6 +6,7 @@ using Skoleprotokol.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
@@ -23,18 +24,15 @@ namespace Skoleprotokol.Services
 
         public async Task<bool> Generate(AttendanceKeyDto attendanceKeyDto) 
         {
-            Random random = new Random();
+            var id = Guid.NewGuid().ToString("N");
 
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-            var generatedId = Enumerable.Repeat(chars, 10)
-              .Select(s => s[random.Next(s.Length)]).ToList();
+            var attendanceKey = id.Substring(0, 9);
 
             using (var context = _contextFactory.CreateDbContext())
             {
                 var attendanceKeyEntity = _mapper.Map<AttendanceKey>(attendanceKeyDto);
 
-                attendanceKeyEntity.IdattendanceKey = generatedId.ToString();
+                attendanceKeyEntity.IdattendanceKey = attendanceKey;
 
                 await context.AttendanceKeys.AddAsync(attendanceKeyEntity);
 
