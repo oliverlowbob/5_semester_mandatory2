@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "a0662e2d-b6ad-4b43-a6b6-b575fb96d440",
+		"name": "REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44398/users/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disable user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44398/users/disable/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								"disable",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enable User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44398/users/enable/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								"enable",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"FirstName\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44398/users/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attendance Keys",
+			"item": [
+				{
+					"name": "Generate Key",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"LessonUserIduser\" : 3,\r\n    \"LessonUserIdclass\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44398/attendancekey/generate",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"attendancekey",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Is Valid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"LessonUserIduser\" : 3,\r\n    \"LessonUserIdclass\" : 1,\r\n    \"Value\": \"3b6e15fb8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44398/attendancekey/validate",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"attendancekey",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
