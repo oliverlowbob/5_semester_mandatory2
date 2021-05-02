@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Skoleprotokol.Data;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
 using AutoMapper;
 using Skoleprotokol.Services;
-using System.Collections.Generic;
 
 namespace Skoleprotokol.Controllers
 {
@@ -76,7 +73,5 @@ namespace Skoleprotokol.Controllers
 
             return BadRequest("Attendance key is outdated/wrong");
         }
-
-
     }
 }

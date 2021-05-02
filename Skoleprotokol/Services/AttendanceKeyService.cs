@@ -29,6 +29,8 @@ namespace Skoleprotokol.Services
 
             using (var context = _contextFactory.CreateDbContext())
             {
+                var transaction = await context.Database.BeginTransactionAsync();
+
                 var attendanceKeyEntity = _mapper.Map<AttendanceKey>(attendanceKeyDto);
 
                 attendanceKeyEntity.IdattendanceKey = attendanceKey;
@@ -36,6 +38,8 @@ namespace Skoleprotokol.Services
                 await context.AttendanceKeys.AddAsync(attendanceKeyEntity);
 
                 await context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
 
                 return attendanceKey;
             }
@@ -67,6 +71,7 @@ namespace Skoleprotokol.Services
                         return Convert.ToBoolean(isValid);
                     }
                 }
+
             }
         }
     }

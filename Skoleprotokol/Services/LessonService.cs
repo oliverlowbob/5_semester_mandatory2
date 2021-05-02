@@ -26,6 +26,8 @@ namespace Skoleprotokol.Services
         {
             using (var context = _contextFactory.CreateDbContext())
             {
+                var transaction = await context.Database.BeginTransactionAsync();
+
                 var lessonEntites = await context.Lessons
                     .Where(l => l.ClassIdclass == classId && l.UserIduser == userId)
                     .ToListAsync();
@@ -39,8 +41,11 @@ namespace Skoleprotokol.Services
 
                     await context.SaveChangesAsync();
 
+                    await transaction.CommitAsync();
+
                     return true;
                 }
+                await transaction.CommitAsync();
 
                 return false;
             }
