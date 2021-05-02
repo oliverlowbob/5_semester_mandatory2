@@ -13,6 +13,7 @@ After this, you run each of the scripts from the following folders:
 
 After setting up the database, you need to cd into the Skoleprotokol folder, and open the Skoleprotokol.sln with Visual Studio 2019.
 Make sure you have all the right modifications for VS2019 for working with .NET Core 3.1 and Entity Framework 5.
+Also make sure that all the Nuget packages for the project have been installed properly.
 
 Then you set the Skoleprotokol as startup project, and run the program.
 You can see the endpoints in each controller, and test it using Postman.
