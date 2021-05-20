@@ -32,7 +32,7 @@ namespace Skoleprotokol.Services
                     .Where(l => l.AttendanceKeys.Any(a => a.IdattendanceKey == attendanceKey))
                     .ToListAsync();
 
-                if(lessonEntites.Any() && lessonEntites != null)
+                if(lessonEntites != null && lessonEntites.Any() )
                 {
                     foreach (var lesson in lessonEntites)
                     {
