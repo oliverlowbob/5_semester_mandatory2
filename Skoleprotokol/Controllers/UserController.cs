@@ -7,6 +7,7 @@ using Skoleprotokol.Dtos;
 using AutoMapper;
 using Skoleprotokol.Services;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Skoleprotokol.Controllers
 {
@@ -22,6 +23,7 @@ namespace Skoleprotokol.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("users")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
@@ -39,6 +41,7 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPut]
         [Route("users/{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto user)
@@ -58,6 +61,7 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpGet]
         [Route("users")]
         public async Task<IEnumerable<UserDto>> GetAllUsers(int userId)
@@ -65,6 +69,7 @@ namespace Skoleprotokol.Controllers
             return await _userService.GetAllUsersAsync();
         }
 
+        [Authorize]
         [HttpGet]
         [Route("users/{id}")]
         public async Task<UserDto> GetUser(int id)
