@@ -26,6 +26,11 @@ namespace Skoleprotokol.Controllers
             _lessonService = lessonService;
         }
 
+        /// <summary>
+        /// Generate key on given userId and classId
+        /// </summary>
+        /// <param name="attendanceKey"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("attendancekey/generate")]
         public async Task<IActionResult> GenerateKey(AttendanceKeyDto attendanceKey)
@@ -49,6 +54,11 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Generates keys for all students in given class
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("attendancekey/generate/{classId}")]
         public async Task<IActionResult> GenerateKeys(int classId)
@@ -68,6 +78,11 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Check if given attendance key is valid (10 minute timeframe after creation) 
+        /// </summary>
+        /// <param name="attendanceKey"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("attendancekey/validate/{attendanceKey}")]
         public async Task<IActionResult> Validate(string attendanceKey)

@@ -46,6 +46,12 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Updates a user from given id and user body
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut]
         [Route("users/{id}")]
@@ -66,6 +72,11 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Gets all users
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [Route("users")]
@@ -74,6 +85,11 @@ namespace Skoleprotokol.Controllers
             return await _userService.GetAllUsersAsync();
         }
 
+        /// <summary>
+        /// Get specific user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [Route("users/{id}")]
