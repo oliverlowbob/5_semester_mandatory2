@@ -58,7 +58,7 @@ namespace Skoleprotokol.Controllers
                 return BadRequest();
             }
 
-            var generatedKeys = await _attendanceKeyService.Generate(classId);
+            var generatedKeys = await _attendanceKeyService.GenerateList(classId);
 
             if (generatedKeys != null && generatedKeys.Any())
             {

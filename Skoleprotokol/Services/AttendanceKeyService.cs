@@ -47,7 +47,7 @@ namespace Skoleprotokol.Services
             }
         }
 
-        public async Task<List<AttendanceKeyDto>> Generate(int classId)
+        public async Task<List<AttendanceKeyDto>> GenerateList(int classId)
         {
             using (var context = _contextFactory.CreateDbContext())
             {

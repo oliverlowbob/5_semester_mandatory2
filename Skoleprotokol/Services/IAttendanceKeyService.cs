@@ -9,7 +9,7 @@ namespace Skoleprotokol.Services
     public interface IAttendanceKeyService<TAttendanceKeyDto, TAttendanceKey>
     {
         Task<string> Generate(AttendanceKeyDto attendanceKeyDto);
-        Task<List<AttendanceKeyDto>> Generate(int classId);
+        Task<List<AttendanceKeyDto>> GenerateList(int classId);
         Task<bool> IsValid(string attendanceKey);
     }
 }
