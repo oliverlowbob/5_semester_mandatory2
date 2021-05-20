@@ -23,6 +23,11 @@ namespace Skoleprotokol.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Creates a user
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         [Route("users")]
