@@ -36,8 +36,8 @@ namespace Skoleprotokol
 
             services.AddScoped<IAuthenticationService<UserLoginDto>, AuthenticationService>();
             services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
-            services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string>, AttendanceKeyService>();
-            services.AddScoped<ILessonService<Int32, Int32>, LessonService>();
+            services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
+            services.AddScoped<ILessonService<string>, LessonService>();
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>

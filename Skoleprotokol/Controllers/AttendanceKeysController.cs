@@ -12,13 +12,13 @@ namespace Skoleprotokol.Controllers
     public class AttendanceKeysController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IAttendanceKeyService<AttendanceKeyDto, string> _attendanceKeyService;
-        private readonly ILessonService<Int32, Int32> _lessonService;
+        private readonly IAttendanceKeyService<AttendanceKeyDto, string, int> _attendanceKeyService;
+        private readonly ILessonService<string> _lessonService;
 
         public AttendanceKeysController(
-            IAttendanceKeyService<AttendanceKeyDto, string> attendanceKeyService, 
+            IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService, 
             IMapper mapper, 
-            ILessonService<Int32, Int32> lessonService
+            ILessonService<string> lessonService
         )
         {
             _mapper = mapper;
@@ -69,19 +69,19 @@ namespace Skoleprotokol.Controllers
         }
 
         [HttpPost]
-        [Route("attendancekey/validate")]
-        public async Task<IActionResult> IsValid(AttendanceKeyDto attendanceKey)
+        [Route("attendancekey/validate/{attendanceKey}")]
+        public async Task<IActionResult> IsValid(string attendanceKey)
         {
-            if (String.IsNullOrEmpty(attendanceKey.Value))
+            if (String.IsNullOrEmpty(attendanceKey))
             {
                 return BadRequest();
             }
 
-            var isValid = await _attendanceKeyService.IsValid(attendanceKey.Value);
+            var isValid = await _attendanceKeyService.IsValid(attendanceKey);
 
             if (isValid)
             {
-                var isSuccess = await _lessonService.MakePresent(attendanceKey.LessonUserIdclass, attendanceKey.LessonUserIduser);
+                var isSuccess = await _lessonService.MakePresent(attendanceKey);
 
                 if (isSuccess)
                 {

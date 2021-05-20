@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public class AttendanceKeyService : IAttendanceKeyService<AttendanceKeyDto, string>
+    public class AttendanceKeyService : IAttendanceKeyService<AttendanceKeyDto, string, int>
     {
         private readonly IDbContextFactory<SchoolProtocolContext> _contextFactory;
         private readonly IMapper _mapper;
@@ -76,6 +76,16 @@ namespace Skoleprotokol.Services
 
                     var attendanceKeyDto = _mapper.Map<AttendanceKeyDto>(attendanceKey);
 
+                    var user = await context.Users.FindAsync(lesson.UserIduser);
+
+                    attendanceKeyDto.User = new UserDto
+                    {
+                        Id = user.Iduser,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                    };
+
                     list.Add(attendanceKeyDto);
                 }
 
@@ -113,7 +123,6 @@ namespace Skoleprotokol.Services
                         return Convert.ToBoolean(isValid);
                     }
                 }
-
             }
         }
     }
