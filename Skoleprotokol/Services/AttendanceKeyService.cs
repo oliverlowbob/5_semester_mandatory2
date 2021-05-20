@@ -76,8 +76,6 @@ namespace Skoleprotokol.Services
 
                     var attendanceKeyDto = _mapper.Map<AttendanceKeyDto>(attendanceKey);
 
-                    //attendanceKeyDto.Value = attendanceKey.IdattendanceKey;
-
                     list.Add(attendanceKeyDto);
                 }
 
