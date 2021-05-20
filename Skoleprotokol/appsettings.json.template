@@ -9,5 +9,9 @@
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "MySqlConnection": "server=localhost; port=3306; database=scool_protocol; user=root; password=password; Persist Security Info=False; Connect Timeout=300"
+  },
+  "Security": {
+    "JwtSecret": "secret",
+    "BcryptHashRounds": 12
   }
 }
