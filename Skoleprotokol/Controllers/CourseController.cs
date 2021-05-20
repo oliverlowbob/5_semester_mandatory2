@@ -30,7 +30,7 @@ namespace Skoleprotokol.Controllers
         /// <returns>The specified course</returns>
         [Authorize]
         [HttpGet]
-        [Route("courses/{id}")]
+        [Route("courses/{courseId}")]
         public async Task<CourseDto> GetCourse(int courseId)
         {
             return await _courseService.GetCourseById(courseId);
