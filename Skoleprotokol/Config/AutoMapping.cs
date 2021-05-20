@@ -16,6 +16,7 @@ namespace Skoleprotokol.Config
             CreateMap<AttendanceKey, AttendanceKeyDto>()
                 .ForMember(dest => dest.LessonUserIdclass, opt => opt.MapFrom(src => src.LessonClassIdclass))
                 .ForMember(dest => dest.LessonUserIduser, opt => opt.MapFrom(src => src.LessonUserIduser))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.IdattendanceKey))
                 .ReverseMap();
 
             CreateMap<Course, CourseDto>()

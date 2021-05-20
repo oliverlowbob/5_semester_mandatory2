@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
 using AutoMapper;
 using Skoleprotokol.Services;
+using System.Linq;
 
 namespace Skoleprotokol.Controllers
 {
@@ -43,6 +44,25 @@ namespace Skoleprotokol.Controllers
             if (!String.IsNullOrEmpty(generatedKey))
             {
                 return Created("Attendance key generated", generatedKey);
+            }
+
+            return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("attendancekey/generate/{classId}")]
+        public async Task<IActionResult> GenerateKeys(int classId)
+        {
+            if (classId == 0)
+            {
+                return BadRequest();
+            }
+
+            var generatedKeys = await _attendanceKeyService.Generate(classId);
+
+            if (generatedKeys != null && generatedKeys.Any())
+            {
+                return Created("Attendance key generated", generatedKeys);
             }
 
             return BadRequest();

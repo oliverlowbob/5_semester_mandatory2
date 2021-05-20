@@ -5,7 +5,9 @@ using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
@@ -42,6 +44,48 @@ namespace Skoleprotokol.Services
                 await transaction.CommitAsync();
 
                 return attendanceKey;
+            }
+        }
+
+        public async Task<List<AttendanceKeyDto>> Generate(int classId)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var list = new List<AttendanceKeyDto>();
+
+                var transaction = await context.Database.BeginTransactionAsync();
+
+                var lessons = await context.Lessons
+                    .Where(l => l.ClassIdclass == classId)
+                    .ToListAsync();
+
+                foreach(var lesson in lessons)
+                {
+                    var id = Guid.NewGuid().ToString("N");
+
+                    var attendanceKeyId = id.Substring(0, 9);
+
+                    var attendanceKey = new AttendanceKey
+                    {
+                        IdattendanceKey = attendanceKeyId,
+                        LessonClassIdclass = lesson.ClassIdclass,
+                        LessonUserIduser = lesson.UserIduser,
+                    };
+
+                    await context.AttendanceKeys.AddAsync(attendanceKey);
+
+                    var attendanceKeyDto = _mapper.Map<AttendanceKeyDto>(attendanceKey);
+
+                    //attendanceKeyDto.Value = attendanceKey.IdattendanceKey;
+
+                    list.Add(attendanceKeyDto);
+                }
+
+                await context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return list;
             }
         }
 

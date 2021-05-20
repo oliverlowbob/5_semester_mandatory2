@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Annotations;
+using System;
 
 namespace Skoleprotokol.Dtos
 {
