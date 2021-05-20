@@ -101,28 +101,42 @@ namespace Skoleprotokol.Services
         {
             using (var context = _contextFactory.CreateDbContext())
             {
-                using (MySqlConnection lconn = new MySqlConnection(context.Database.GetDbConnection().ConnectionString))
+                //USE THIS CODE FOR STORED PROCEDURE FROM DATABASE
+
+                //using (MySqlConnection lconn = new MySqlConnection(context.Database.GetDbConnection().ConnectionString))
+                //{
+                //    lconn.Open();
+                //    using (MySqlCommand cmd = new MySqlCommand())
+                //    {
+                //        cmd.Connection = lconn;
+                //        cmd.CommandText = "get_attendance_key_valid"; // The name of the Stored Proc
+                //        cmd.CommandType = CommandType.StoredProcedure; // It is a Stored Proc
+
+                //        cmd.Parameters.AddWithValue("@key_id", attendanceKey);
+
+                //        cmd.Parameters.AddWithValue("@isValid", MySqlDbType.Int16);
+                //        cmd.Parameters["@isValid"].Direction = ParameterDirection.Output; // from System.Data
+
+                //        await cmd.ExecuteReaderAsync();
+
+                //        Object obj = cmd.Parameters["@isValid"].Value;
+                //        var isValid = (Int32)obj;    // more useful datatype
+
+                //        return Convert.ToBoolean(isValid);
+                //    }
+                //}
+
+                var isValid = await context.AttendanceKeys.FindAsync(attendanceKey);
+
+                if (isValid != null)
                 {
-                    lconn.Open();
-                    using (MySqlCommand cmd = new MySqlCommand())
+                    if (DateTime.Now <= isValid.ValidUntil)
                     {
-                        cmd.Connection = lconn;
-                        cmd.CommandText = "get_attendance_key_valid"; // The name of the Stored Proc
-                        cmd.CommandType = CommandType.StoredProcedure; // It is a Stored Proc
-
-                        cmd.Parameters.AddWithValue("@key_id", attendanceKey);
-
-                        cmd.Parameters.AddWithValue("@isValid", MySqlDbType.Int16);
-                        cmd.Parameters["@isValid"].Direction = ParameterDirection.Output; // from System.Data
-
-                        await cmd.ExecuteReaderAsync();
-
-                        Object obj = cmd.Parameters["@isValid"].Value;
-                        var isValid = (Int32)obj;    // more useful datatype
-
-                        return Convert.ToBoolean(isValid);
+                        return true;
                     }
                 }
+
+                return false;
             }
         }
     }
