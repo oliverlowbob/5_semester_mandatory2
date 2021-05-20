@@ -38,6 +38,7 @@ namespace Skoleprotokol
             services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
             services.AddScoped<ILessonService<string>, LessonService>();
+            services.AddScoped<ICourseService<CourseDto>, CourseService>();
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>
