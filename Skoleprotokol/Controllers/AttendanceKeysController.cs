@@ -70,7 +70,7 @@ namespace Skoleprotokol.Controllers
 
         [HttpPost]
         [Route("attendancekey/validate/{attendanceKey}")]
-        public async Task<IActionResult> IsValid(string attendanceKey)
+        public async Task<IActionResult> Validate(string attendanceKey)
         {
             if (String.IsNullOrEmpty(attendanceKey))
             {
