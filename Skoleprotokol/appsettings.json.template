@@ -10,8 +10,11 @@
   "ConnectionStrings": {
     "MySqlConnection": "server=localhost; port=3306; database=scool_protocol; user=root; password=password; Persist Security Info=False; Connect Timeout=300"
   },
-  "Security": {
-    "JwtSecret": "secret",
+  "BCryptOptions": {
     "BcryptHashRounds": 12
+  },
+  "JwtOptions": {
+    "Secret": "Needs_to_be_quite_long_else_JwtSecurityTokenHandler_throws_error_on_creation",
+    "ExpiresInMilliseconds": 60000 //1 hour
   }
 }

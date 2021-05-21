@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Skoleprotokol.Dtos;
+using Skoleprotokol.Utils;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,17 +13,17 @@ namespace Skoleprotokol.Services
 {
     public class JwtService : IJwtService<UserDto>
     {
-        private readonly string _tokenSecret;
+        private readonly JwtOptions _options;
 
-        public JwtService(string tokenSecret)
+        public JwtService(JwtOptions options)
         {
-            _tokenSecret = tokenSecret;
+            _options = options;
         }
 
         public string GenerateAccessToken(UserDto user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenSecretKey = Encoding.ASCII.GetBytes(_tokenSecret);
+            var tokenSecretKey = Encoding.UTF8.GetBytes(_options.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -31,7 +32,7 @@ namespace Skoleprotokol.Services
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.FirstName)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddMilliseconds(_options.ExpiresInMilliseconds),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenSecretKey), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

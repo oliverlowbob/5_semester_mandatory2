@@ -14,6 +14,7 @@ using System;
 using System.IO;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Skoleprotokol.Utils;
 
 namespace Skoleprotokol
 {
@@ -39,6 +40,13 @@ namespace Skoleprotokol
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
+
+            // JWT configuration
+            var jwtOptions = new JwtOptions();
+            Configuration.GetSection("JwtOptions").Bind(jwtOptions);
+            services.AddSingleton<IJwtService<UserDto>>(new JwtService(jwtOptions));
+
+
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>
