@@ -23,6 +23,11 @@ namespace Skoleprotokol.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Authenticate user with given UserLoginDto
+        /// </summary>
+        /// <param name="userAuthentication"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("authenticate")]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginDto userAuthentication)

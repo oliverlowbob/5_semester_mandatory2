@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public interface ILessonService<TClass, TUser>
+    public interface ILessonService<TAttendanceKey>
     {
-        Task<bool> MakePresent(int classId, int userId);
+        Task<bool> MakePresent(string attendanceKey);
     }
 }

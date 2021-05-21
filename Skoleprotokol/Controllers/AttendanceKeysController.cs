@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
 using AutoMapper;
 using Skoleprotokol.Services;
+using System.Linq;
 
 namespace Skoleprotokol.Controllers
 {
@@ -11,13 +12,13 @@ namespace Skoleprotokol.Controllers
     public class AttendanceKeysController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IAttendanceKeyService<AttendanceKeyDto, string> _attendanceKeyService;
-        private readonly ILessonService<Int32, Int32> _lessonService;
+        private readonly IAttendanceKeyService<AttendanceKeyDto, string, int> _attendanceKeyService;
+        private readonly ILessonService<string> _lessonService;
 
         public AttendanceKeysController(
-            IAttendanceKeyService<AttendanceKeyDto, string> attendanceKeyService, 
+            IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService, 
             IMapper mapper, 
-            ILessonService<Int32, Int32> lessonService
+            ILessonService<string> lessonService
         )
         {
             _mapper = mapper;
@@ -25,6 +26,11 @@ namespace Skoleprotokol.Controllers
             _lessonService = lessonService;
         }
 
+        /// <summary>
+        /// Generate key on given userId and classId
+        /// </summary>
+        /// <param name="attendanceKey"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("attendancekey/generate")]
         public async Task<IActionResult> GenerateKey(AttendanceKeyDto attendanceKey)
@@ -48,20 +54,49 @@ namespace Skoleprotokol.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
-        [Route("attendancekey/validate")]
-        public async Task<IActionResult> IsValid(AttendanceKeyDto attendanceKey)
+        /// <summary>
+        /// Generates keys for all students in given class
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("attendancekey/generate/{classId}")]
+        public async Task<IActionResult> GenerateKeys(int classId)
         {
-            if (String.IsNullOrEmpty(attendanceKey.Value))
+            if (classId == 0)
             {
                 return BadRequest();
             }
 
-            var isValid = await _attendanceKeyService.IsValid(attendanceKey.Value);
+            var generatedKeys = await _attendanceKeyService.GenerateList(classId);
+
+            if (generatedKeys != null && generatedKeys.Any())
+            {
+                return Created("Attendance key generated", generatedKeys);
+            }
+
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Check if given attendance key is valid (10 minute timeframe after creation) 
+        /// </summary>
+        /// <param name="attendanceKey"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("attendancekey/validate/{attendanceKey}")]
+        public async Task<IActionResult> Validate(string attendanceKey)
+        {
+            if (String.IsNullOrEmpty(attendanceKey))
+            {
+                return BadRequest();
+            }
+
+            var isValid = await _attendanceKeyService.IsValid(attendanceKey);
 
             if (isValid)
             {
-                var isSuccess = await _lessonService.MakePresent(attendanceKey.LessonUserIdclass, attendanceKey.LessonUserIduser);
+                var isSuccess = await _lessonService.MakePresent(attendanceKey);
 
                 if (isSuccess)
                 {

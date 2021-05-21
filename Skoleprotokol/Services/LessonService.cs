@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {
-    public class LessonService : ILessonService<Int32, Int32>
+    public class LessonService : ILessonService<string>
     {
         private readonly IDbContextFactory<SchoolProtocolContext> _contextFactory;
         private readonly IMapper _mapper;
@@ -22,17 +22,17 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> MakePresent(int classId, int userId) 
+        public async Task<bool> MakePresent(string attendanceKey) 
         {
             using (var context = _contextFactory.CreateDbContext())
             {
                 var transaction = await context.Database.BeginTransactionAsync();
 
                 var lessonEntites = await context.Lessons
-                    .Where(l => l.ClassIdclass == classId && l.UserIduser == userId)
+                    .Where(l => l.AttendanceKeys.Any(a => a.IdattendanceKey == attendanceKey))
                     .ToListAsync();
 
-                if(lessonEntites.Any() && lessonEntites != null)
+                if(lessonEntites != null && lessonEntites.Any() )
                 {
                     foreach (var lesson in lessonEntites)
                     {
