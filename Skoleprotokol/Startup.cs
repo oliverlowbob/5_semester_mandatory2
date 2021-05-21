@@ -18,6 +18,9 @@ using Skoleprotokol.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Skoleprotokol.Models.mongo_models;
+using Microsoft.Extensions.Options;
+using Skoleprotokol.Services.MongoServices;
 
 namespace Skoleprotokol
 {
@@ -43,6 +46,12 @@ namespace Skoleprotokol
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
+
+            // MongoDB related
+            services.Configure<MongoDatabaseSettings>(Configuration.GetSection(nameof(MongoDatabaseSettings)));
+            services.AddSingleton<IMongoDatabaseSettings>(sp =>sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
+            // Mongo DB services
+            services.AddSingleton<SchoolServiceMongo>();
 
             // Token configuration, default validation from Microsoft.AspNetCore.Authentication.JwtBearer for now.
             var jwtOptions = new JwtOptions();

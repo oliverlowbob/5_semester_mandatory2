@@ -16,5 +16,10 @@
   "JwtOptions": {
     "Secret": "Needs_to_be_quite_long_else_JwtSecurityTokenHandler_throws_error_on_creation",
     "ExpiresInMilliseconds": 3600000 //1 hour
+  },
+  "MongoDatabaseSettings": {
+    "SchoolCollectionName": "School",
+    "ConnectionString": "<INSERT CONNECTION STRING>",
+    "DatabaseName": "Skoleprotokol"
   }
 }
