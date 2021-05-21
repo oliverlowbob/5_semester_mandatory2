@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Services;
 using System;
@@ -39,6 +40,7 @@ namespace Skoleprotokol.Controllers
         /// </returns>
         [HttpPost]
         [Route("authenticate")]
+        [AllowAnonymous]
         public async Task<IActionResult> AuthenticateUser([FromBody] UserLoginDto userCredentials)
         {
             if (!ModelState.IsValid)

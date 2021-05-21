@@ -15,6 +15,9 @@ using System.IO;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Skoleprotokol.Utils;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Skoleprotokol
 {
@@ -41,12 +44,29 @@ namespace Skoleprotokol
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
 
-            // JWT configuration
+            // Token configuration, default validation from Microsoft.AspNetCore.Authentication.JwtBearer for now.
             var jwtOptions = new JwtOptions();
             Configuration.GetSection("JwtOptions").Bind(jwtOptions);
             services.AddSingleton<IJwtService<UserDto>>(new JwtService(jwtOptions));
 
-
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             // Auto mapper configuration
             var mapperConfig = new MapperConfiguration(mc =>

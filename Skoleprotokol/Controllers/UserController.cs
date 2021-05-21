@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -28,7 +29,6 @@ namespace Skoleprotokol.Controllers
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPost]
         [Route("users")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
@@ -52,7 +52,6 @@ namespace Skoleprotokol.Controllers
         /// <param name="id"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPut]
         [Route("users/{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDto user)
@@ -77,7 +76,6 @@ namespace Skoleprotokol.Controllers
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet]
         [Route("users")]
         public async Task<IEnumerable<UserDto>> GetAllUsers(int userId)
@@ -90,7 +88,6 @@ namespace Skoleprotokol.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet]
         [Route("users/{id}")]
         public async Task<UserDto> GetUser(int id)
