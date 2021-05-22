@@ -9,6 +9,7 @@ namespace Skoleprotokol.Models.mongo_models
 {
     public class SchoolMongo
     {
+       
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
