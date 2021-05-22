@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
+
 namespace Skoleprotokol.Models.MongoModels
 {
-    public class SchoolMongo
+    public class CourseMongo
     {
         [BsonIgnoreIfDefault] // This will allow updating without reentering the ID of the object
         [BsonId]
@@ -17,23 +18,5 @@ namespace Skoleprotokol.Models.MongoModels
         [BsonElement("name")]
         public string Name { get; set; }
 
-        public Address[] address { get; set; }
-
-        public class Address
-        {
-
-            [BsonElement("street")]
-            public string Street { get; set; }
-            [BsonElement("postal_code")]
-            public int PostalCode { get; set; }
-            [BsonElement("country")]
-            public string Country { get; set; }
-            [BsonElement("number")]
-            public int Number { get; set; }
-        }
-
-
-
     }
-
 }

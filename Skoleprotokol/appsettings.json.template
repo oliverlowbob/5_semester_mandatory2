@@ -19,7 +19,8 @@
   },
   "MongoDatabaseSettings": {
     "SchoolCollectionName": "School",
-    "ConnectionString": "<INSERT CONNECTION STRING>",
+    "ClassCollectionName": "Class",
+    "ConnectionString": "mongodb+srv://jkh:<PASSWORD>@skoleprotokol.z5ila.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     "DatabaseName": "Skoleprotokol"
   }
 }

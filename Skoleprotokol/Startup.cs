@@ -18,7 +18,7 @@ using Skoleprotokol.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Skoleprotokol.Models.mongo_models;
+using Skoleprotokol.Models.MongoModels;
 using Microsoft.Extensions.Options;
 using Skoleprotokol.Services.MongoServices;
 
@@ -52,6 +52,8 @@ namespace Skoleprotokol
             services.AddSingleton<IMongoDatabaseSettings>(sp =>sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
             // Mongo DB services
             services.AddSingleton<SchoolServiceMongo>();
+            services.AddSingleton<ClassServiceMongo>();
+
 
             // Token configuration, default validation from Microsoft.AspNetCore.Authentication.JwtBearer for now.
             var jwtOptions = new JwtOptions();

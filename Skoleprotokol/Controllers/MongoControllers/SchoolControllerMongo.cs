@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Skoleprotokol.Models.mongo_models;
+using Skoleprotokol.Models.MongoModels;
 using Skoleprotokol.Services.MongoServices;
 using System;
 using System.Collections.Generic;
