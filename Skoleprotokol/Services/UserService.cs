@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Models;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

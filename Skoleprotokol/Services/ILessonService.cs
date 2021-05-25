@@ -1,5 +1,4 @@
-﻿using Skoleprotokol.Dtos;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services
 {

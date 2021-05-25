@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Skoleprotokol.Dtos
+﻿namespace Skoleprotokol.Dtos
 {
     public class RoleDto
     {

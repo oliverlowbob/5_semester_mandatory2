@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Services

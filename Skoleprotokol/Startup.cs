@@ -1,26 +1,26 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Skoleprotokol.Data;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Skoleprotokol.Services;
-using Skoleprotokol.Dtos;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Skoleprotokol.Config;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using Skoleprotokol.Data;
+using Skoleprotokol.Dtos;
+using Skoleprotokol.Models.MongoModels;
+using Skoleprotokol.Services;
+using Skoleprotokol.Services.MongoServices;
+using Skoleprotokol.Utils;
 using System;
 using System.IO;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
-using Skoleprotokol.Utils;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Skoleprotokol.Models.MongoModels;
-using Microsoft.Extensions.Options;
-using Skoleprotokol.Services.MongoServices;
 
 namespace Skoleprotokol
 {
@@ -38,18 +38,18 @@ namespace Skoleprotokol
         {
             var mySqlConnectionString = Configuration.GetConnectionString("MySqlConnection");
 
-            services.AddDbContextFactory<SchoolProtocolContext>(options => 
+            services.AddDbContextFactory<SchoolProtocolContext>(options =>
                 options.UseLazyLoadingProxies().UseMySql(mySqlConnectionString, ServerVersion.AutoDetect(mySqlConnectionString)).ConfigureWarnings(w => w.Ignore(CoreEventId.LazyLoadOnDisposedContextWarning)));
 
             services.AddScoped<IAuthenticationService<UserLoginDto>, AuthenticationService>();
-            services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>(); 
+            services.AddScoped<IUserService<UserDto, NewUserDto>, UserService>();
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
 
             // MongoDB related
             services.Configure<MongoDatabaseSettings>(Configuration.GetSection(nameof(MongoDatabaseSettings)));
-            services.AddSingleton<IMongoDatabaseSettings>(sp =>sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings>(sp => sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
             // Mongo DB services
             services.AddSingleton<SchoolServiceMongo>();
             services.AddSingleton<ClassServiceMongo>();

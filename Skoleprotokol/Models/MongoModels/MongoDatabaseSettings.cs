@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Skoleprotokol.Models.MongoModels
+﻿namespace Skoleprotokol.Models.MongoModels
 {
     //  The preceding MongoDatabaseSettings class is used to store the 
     //  appsettings.json file's SchoolProtocolMongoDatabaseSettings property values.

@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using MySqlConnector;
 using Skoleprotokol.Data;
-using Skoleprotokol.Dtos;
-using Skoleprotokol.Models;
-using System;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;

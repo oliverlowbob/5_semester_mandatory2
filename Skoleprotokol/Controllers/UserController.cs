@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Skoleprotokol.Data;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Skoleprotokol.Dtos;
 using AutoMapper;

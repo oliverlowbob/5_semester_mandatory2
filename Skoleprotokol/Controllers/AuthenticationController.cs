@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Controllers
@@ -13,7 +10,6 @@ namespace Skoleprotokol.Controllers
     /// This class handles user authentication
     /// </summary>
     [ApiController]
-    [Route("api/auth")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService<UserLoginDto> _authenticationService;
