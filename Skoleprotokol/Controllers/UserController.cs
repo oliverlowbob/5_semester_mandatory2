@@ -71,11 +71,10 @@ namespace Skoleprotokol.Controllers
         /// <summary>
         /// Gets all users
         /// </summary>
-        /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("users")]
-        public async Task<IEnumerable<UserDto>> GetAllUsers(int userId)
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
         {
             return await _userService.GetAllUsersAsync();
         }
