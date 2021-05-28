@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Skoleprotokol.Dtos;
-using AutoMapper;
 using Skoleprotokol.Services;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
+    [Authorize]
     public class AttendanceKeysController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -16,8 +18,8 @@ namespace Skoleprotokol.Controllers
         private readonly ILessonService<string> _lessonService;
 
         public AttendanceKeysController(
-            IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService, 
-            IMapper mapper, 
+            IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService,
+            IMapper mapper,
             ILessonService<string> lessonService
         )
         {

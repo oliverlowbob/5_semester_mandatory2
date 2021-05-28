@@ -17,6 +17,17 @@ namespace Skoleprotokol.Services.MongoServices
             _classmongo = database.GetCollection<ClassMongo>(settings.ClassCollectionName);
         }
 
+        /// <summary>
+        /// Create a new school
+        /// </summary>
+        /// <param name="classMongo"></param>
+        /// <returns></returns>
+        public ClassMongo Create(ClassMongo classMongo)
+        {
+            _classmongo.InsertOne(classMongo);
+            return classMongo;
+        }
+
         public List<ClassMongo> Get() =>
             _classmongo.Find(ClassMongo => true).ToList();
 

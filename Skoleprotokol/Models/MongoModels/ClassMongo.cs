@@ -23,18 +23,16 @@ namespace Skoleprotokol.Models.MongoModels
         public string CourseId { get; set; }
 
         [BsonElement("users")]
-        public IEnumerable<User> Users { get; set; }
+        public IEnumerable<UserClass> Users { get; set; }
 
-        public class User
+        public class UserClass
         {
             [BsonIgnoreIfDefault] // This will allow updating without reentering the ID of the object
             [BsonId]
             [BsonRepresentation(BsonType.ObjectId)]
             public string Id { get; set; }
-
-            [BsonElement("user_id")]
-            public string UserId { get; set; }
-
+            [BsonElement("user")]
+            public UserMongo User { get; set; }
             [BsonElement("attendance_key")]
             public string AttendanceKey { get; set; }
             [BsonElement("valid_until")]

@@ -172,7 +172,6 @@ namespace Skoleprotokol
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
-            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

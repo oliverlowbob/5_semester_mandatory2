@@ -30,6 +30,14 @@ namespace Skoleprotokol.Controllers
         [Route("users")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
         {
+            //TODO: Use the code beneath to get userid and validate user role is admin
+            //var test = tokenHandler.ReadJwtToken(token);
+            //var userId = test.Claims.Where(c => c.Value == "UserId").FirstOrDefault().Value;
+            //Pseudo code
+            //Get all roles from userId
+            //Check if one of the roles is ADMIN
+            //if not return Unauthorized();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
