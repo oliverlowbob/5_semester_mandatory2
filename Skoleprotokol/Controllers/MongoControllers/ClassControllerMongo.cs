@@ -44,7 +44,7 @@ namespace Skoleprotokol.Controllers.MongoControllers
 
             _classServiceMongo.Create(classMongo);
 
-            return Created("User created", classMongo);
+            return Created("Class created", classMongo);
         }
 
         /// <summary>
@@ -55,5 +55,69 @@ namespace Skoleprotokol.Controllers.MongoControllers
         [Route("mongo/class/all")]
         public ActionResult<List<ClassMongo>> Get() =>
             _classServiceMongo.Get();
+
+        /// <summary>
+        /// Get a class by id
+        /// </summary>
+        /// <param id="id"></param>
+        /// <returns>A class by id</returns>
+        [HttpGet]
+        [Route("mongo/class/{id}")]
+        public ActionResult<ClassMongo> Get(string id)
+        {
+            var classMongo = _classServiceMongo.Get(id);
+
+            if (classMongo == null)
+            {
+                return NotFound();
+            }
+
+            return classMongo;
+        }
+
+      /// <summary>
+      /// Delete a class by id
+      /// </summary>
+      /// <param name="id"></param>
+      /// <returns>NoContent</returns>
+        [HttpDelete]
+        [Route("mongo/class/{id}")]
+        public IActionResult Delete(string id)
+        {
+            var classMongo = _classServiceMongo.Get(id);
+
+            if (classMongo == null)
+            {
+                return NotFound();
+            }
+
+            _classServiceMongo.Remove(classMongo.Id);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Update a class
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="classIn"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("mongo/class/{id}")]
+        public IActionResult Update(string id, ClassMongo classIn)
+        {
+            var classMongo = _classServiceMongo.Get(id);
+
+            if (classMongo == null)
+            {
+                return NotFound();
+            }
+
+            _classServiceMongo.Update(id, classIn);
+
+            return NoContent();
+        }
+
+
     }
 }
