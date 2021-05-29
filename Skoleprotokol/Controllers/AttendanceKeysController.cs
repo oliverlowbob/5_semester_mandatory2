@@ -16,19 +16,19 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IAttendanceKeyService<AttendanceKeyDto, string, int> _attendanceKeyService;
         private readonly ILessonService<string> _lessonService;
-        private readonly UserActionController _identityController;
+        private readonly UserActionController _userActionController;
 
         public AttendanceKeysController(
             IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService,
             IMapper mapper,
             ILessonService<string> lessonService,
-            UserActionController identityController
+            UserActionController userActionController
         )
         {
             _mapper = mapper;
             _attendanceKeyService = attendanceKeyService;
             _lessonService = lessonService;
-            _identityController = identityController;
+            _userActionController = userActionController;
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace Skoleprotokol.Controllers
 
             var identity = User.Identity as ClaimsIdentity;
 
-            var userId = _identityController.GetUserId(identity);
+            var userId = _userActionController.GetUserId(identity);
 
-            var isTeacher = await _identityController.IsTeacher(userId);
+            var isTeacher = await _userActionController.IsTeacher(userId);
 
             if (!isTeacher)
             {
@@ -88,9 +88,9 @@ namespace Skoleprotokol.Controllers
 
             var identity = User.Identity as ClaimsIdentity;
 
-            var userId = _identityController.GetUserId(identity);
+            var userId = _userActionController.GetUserId(identity);
 
-            var isTeacher = await _identityController.IsTeacher(userId);
+            var isTeacher = await _userActionController.IsTeacher(userId);
 
             if (!isTeacher)
             {

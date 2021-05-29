@@ -17,13 +17,13 @@ namespace Skoleprotokol.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService<UserDto, NewUserDto> _userService;
-        private readonly UserActionController _identityController;
+        private readonly UserActionController _userActionController;
 
-        public UserController(IUserService<UserDto, NewUserDto> userService, UserActionController identityController, IMapper mapper)
+        public UserController(IUserService<UserDto, NewUserDto> userService, UserActionController userActionController, IMapper mapper)
         {
             _mapper = mapper;
             _userService = userService;
-            _identityController = identityController;
+            _userActionController = userActionController;
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace Skoleprotokol.Controllers
 
             var identity = User.Identity as ClaimsIdentity;
 
-            var userId = _identityController.GetUserId(identity);
+            var userId = _userActionController.GetUserId(identity);
 
-            var isAdmin = await _identityController.IsAdmin(userId);
+            var isAdmin = await _userActionController.IsAdmin(userId);
 
             if (!isAdmin)
             {
@@ -76,9 +76,9 @@ namespace Skoleprotokol.Controllers
 
             var identity = User.Identity as ClaimsIdentity;
 
-            var userId = _identityController.GetUserId(identity);
+            var userId = _userActionController.GetUserId(identity);
 
-            var isAdmin = await _identityController.IsAdmin(userId);
+            var isAdmin = await _userActionController.IsAdmin(userId);
 
             if (!isAdmin)
             {

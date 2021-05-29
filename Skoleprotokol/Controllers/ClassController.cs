@@ -17,19 +17,19 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IClassService<ClassDto> _classService;
         private readonly ILessonService<string> _lessonService;
-        private readonly UserActionController _identityController;
+        private readonly UserActionController _userActionController;
 
         public ClassController(
             IClassService<ClassDto> classService, 
             ILessonService<string> lessonService, 
             IMapper mapper,
-            UserActionController identityController
+            UserActionController userActionController
         )
         {
             _mapper = mapper;
             _classService = classService;
             _lessonService = lessonService;
-            _identityController = identityController;
+            _userActionController = userActionController;
         }
 
         
@@ -44,9 +44,9 @@ namespace Skoleprotokol.Controllers
         {
             var identity = User.Identity as ClaimsIdentity;
 
-            var userId = _identityController.GetUserId(identity);
+            var userId = _userActionController.GetUserId(identity);
 
-            var isTeacher = await _identityController.IsTeacher(userId);
+            var isTeacher = await _userActionController.IsTeacher(userId);
 
             if (!isTeacher)
             {
