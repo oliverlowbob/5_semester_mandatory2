@@ -43,6 +43,11 @@ namespace Skoleprotokol.Controllers.MongoControllers
             return school;
         }
 
+        /// <summary>
+        /// Create a new school
+        /// </summary>
+        /// <param name="school"></param>
+        /// <returns>The created school</returns>
         [HttpPost]
         [Route("mongo/school")]
         public ActionResult<SchoolMongo> Create(SchoolMongo school)
@@ -52,6 +57,12 @@ namespace Skoleprotokol.Controllers.MongoControllers
             return CreatedAtRoute("mongo/school", new { id = school.Id.ToString() }, school);
         }
 
+        /// <summary>
+        /// Update an existing school
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="schoolIn"></param>
+        /// <returns>NoContent</returns>
         [HttpPut]
         [Route("mongo/school/{id}")]
         public IActionResult Update(string id, SchoolMongo schoolIn)
@@ -68,6 +79,11 @@ namespace Skoleprotokol.Controllers.MongoControllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete a school by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>NoContent</returns>
         [HttpDelete]
         [Route("mongo/school/{id}")]
         public IActionResult Delete(string id)

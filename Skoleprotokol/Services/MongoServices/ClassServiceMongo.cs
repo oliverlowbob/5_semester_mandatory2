@@ -31,5 +31,15 @@ namespace Skoleprotokol.Services.MongoServices
         public List<ClassMongo> Get() =>
             _classmongo.Find(ClassMongo => true).ToList();
 
+        public ClassMongo Get(string id) =>
+        _classmongo.Find<ClassMongo>(classmongo => classmongo.Id == id).FirstOrDefault();
+
+
+        public void Update(string id, ClassMongo classIn) =>
+           _classmongo.ReplaceOne(classMongo => classMongo.Id == id, classIn);
+
+        public void Remove(string id) =>
+            _classmongo.DeleteOne(classMongo => classMongo.Id == id);
+
     }
 }
