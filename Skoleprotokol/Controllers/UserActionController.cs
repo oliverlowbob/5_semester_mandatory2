@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Controllers
 {
-    public class IdentityController
+    public class UserActionController
     {
         private readonly IUserService<UserDto, NewUserDto> _userService;
 
-        public IdentityController(IUserService<UserDto, NewUserDto> userService)
+        public UserActionController(IUserService<UserDto, NewUserDto> userService)
         {
             _userService = userService;
         }

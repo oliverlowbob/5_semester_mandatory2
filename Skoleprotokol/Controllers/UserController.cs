@@ -17,9 +17,9 @@ namespace Skoleprotokol.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService<UserDto, NewUserDto> _userService;
-        private readonly IdentityController _identityController;
+        private readonly UserActionController _identityController;
 
-        public UserController(IUserService<UserDto, NewUserDto> userService, IdentityController identityController, IMapper mapper)
+        public UserController(IUserService<UserDto, NewUserDto> userService, UserActionController identityController, IMapper mapper)
         {
             _mapper = mapper;
             _userService = userService;

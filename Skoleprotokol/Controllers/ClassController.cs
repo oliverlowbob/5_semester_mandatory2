@@ -17,13 +17,13 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IClassService<ClassDto> _classService;
         private readonly ILessonService<string> _lessonService;
-        private readonly IdentityController _identityController;
+        private readonly UserActionController _identityController;
 
         public ClassController(
             IClassService<ClassDto> classService, 
             ILessonService<string> lessonService, 
             IMapper mapper,
-            IdentityController identityController
+            UserActionController identityController
         )
         {
             _mapper = mapper;

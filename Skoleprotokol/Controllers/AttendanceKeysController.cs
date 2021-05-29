@@ -16,13 +16,13 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IAttendanceKeyService<AttendanceKeyDto, string, int> _attendanceKeyService;
         private readonly ILessonService<string> _lessonService;
-        private readonly IdentityController _identityController;
+        private readonly UserActionController _identityController;
 
         public AttendanceKeysController(
             IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService,
             IMapper mapper,
             ILessonService<string> lessonService,
-            IdentityController identityController
+            UserActionController identityController
         )
         {
             _mapper = mapper;

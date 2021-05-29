@@ -49,7 +49,7 @@ namespace Skoleprotokol
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
             services.AddScoped<IClassService<ClassDto>, ClassService>();
-            services.AddScoped<IdentityController>();
+            services.AddScoped<UserActionController>();
 
             // Handles issues with object cycle/recursion depth
             services.AddControllers().AddNewtonsoftJson(
