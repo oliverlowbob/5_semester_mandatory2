@@ -86,6 +86,8 @@ namespace Skoleprotokol.Services
                         Email = user.Email,
                     };
 
+                    attendanceKeyDto.Present = lesson.Present;
+
                     list.Add(attendanceKeyDto);
                 }
 

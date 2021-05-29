@@ -5,6 +5,9 @@ using AutoMapper;
 using Skoleprotokol.Services;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System;
+using System.Security.Claims;
 
 namespace Skoleprotokol.Controllers
 {
@@ -30,13 +33,27 @@ namespace Skoleprotokol.Controllers
         [Route("users")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
         {
-            //TODO: Use the code beneath to get userid and validate user role is admin
-            //var test = tokenHandler.ReadJwtToken(token);
-            //var userId = test.Claims.Where(c => c.Value == "UserId").FirstOrDefault().Value;
-            //Pseudo code
-            //Get all roles from userId
-            //Check if one of the roles is ADMIN
-            //if not return Unauthorized();
+            ClaimsIdentity claimsIdentity = User.Identity as ClaimsIdentity;
+
+            int userId;
+
+            Int32.TryParse(claimsIdentity.Claims.FirstOrDefault().ToString().Split().Last(), out userId);
+
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
+
+            if(user == null)
+            {
+                return NotFound($"User with id {userId} not found");
+            }
+
+            var isAdmin = user.Roles.Where(r => r.Id == 1);
+
+            if (isAdmin == null && !isAdmin.Any())
+            {
+                return Unauthorized($"User with id {userId} is not admin");
+            }
 
             if (!ModelState.IsValid)
             {

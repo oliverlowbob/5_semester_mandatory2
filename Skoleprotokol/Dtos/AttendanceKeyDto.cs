@@ -6,5 +6,6 @@
         public int LessonUserIdclass { get; set; }
         public string Value { get; set; }
         public UserDto User { get; set; }
+        public bool Present { get; set; }
     }
 }
