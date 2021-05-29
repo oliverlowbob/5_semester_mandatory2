@@ -74,6 +74,17 @@ namespace Skoleprotokol.Controllers
                 return BadRequest(ModelState);
             }
 
+            var identity = User.Identity as ClaimsIdentity;
+
+            var userId = _identityController.GetUserId(identity);
+
+            var isAdmin = await _identityController.IsAdmin(userId);
+
+            if (!isAdmin)
+            {
+                return Unauthorized($"User with id {userId} is not admin");
+            }
+
             var updatedUser = await _userService.UpdateUserByIdAsync(id, user);
 
             if (updatedUser != null)

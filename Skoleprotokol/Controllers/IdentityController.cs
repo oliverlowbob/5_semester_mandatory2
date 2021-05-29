@@ -46,5 +46,24 @@ namespace Skoleprotokol.Controllers
 
             return true;
         }
+
+        public async Task<bool> IsTeacher(int userId)
+        {
+            var user = await _userService.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var isAdmin = user.Roles.Where(r => r.Id == 3);
+
+            if (!isAdmin.Any())
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

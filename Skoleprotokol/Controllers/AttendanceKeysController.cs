@@ -5,6 +5,7 @@ using Skoleprotokol.Dtos;
 using Skoleprotokol.Services;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Skoleprotokol.Controllers
@@ -15,16 +16,19 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IAttendanceKeyService<AttendanceKeyDto, string, int> _attendanceKeyService;
         private readonly ILessonService<string> _lessonService;
+        private readonly IdentityController _identityController;
 
         public AttendanceKeysController(
             IAttendanceKeyService<AttendanceKeyDto, string, int> attendanceKeyService,
             IMapper mapper,
-            ILessonService<string> lessonService
+            ILessonService<string> lessonService,
+            IdentityController identityController
         )
         {
             _mapper = mapper;
             _attendanceKeyService = attendanceKeyService;
             _lessonService = lessonService;
+            _identityController = identityController;
         }
 
         /// <summary>
@@ -44,6 +48,17 @@ namespace Skoleprotokol.Controllers
             if (attendanceKey.LessonUserIduser == 0)
             {
                 return BadRequest();
+            }
+
+            var identity = User.Identity as ClaimsIdentity;
+
+            var userId = _identityController.GetUserId(identity);
+
+            var isTeacher = await _identityController.IsTeacher(userId);
+
+            if (!isTeacher)
+            {
+                return Unauthorized($"User with id {userId} is not teacher");
             }
 
             var generatedKey = await _attendanceKeyService.Generate(attendanceKey);
@@ -69,6 +84,17 @@ namespace Skoleprotokol.Controllers
             if (classId == 0)
             {
                 return BadRequest();
+            }
+
+            var identity = User.Identity as ClaimsIdentity;
+
+            var userId = _identityController.GetUserId(identity);
+
+            var isTeacher = await _identityController.IsTeacher(userId);
+
+            if (!isTeacher)
+            {
+                return Unauthorized($"User with id {userId} is not teacher");
             }
 
             var generatedKeys = await _attendanceKeyService.GenerateList(classId);

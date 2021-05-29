@@ -33,18 +33,29 @@ namespace Skoleprotokol.Controllers
         }
 
         
+        /// <summary>
+        /// Gets all classes for a logged in user
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [Route("classes")]
-        public async Task<List<ClassDto>> GetClasses()
+        public async Task<IActionResult> GetClasses()
         {
             var identity = User.Identity as ClaimsIdentity;
 
             var userId = _identityController.GetUserId(identity);
 
+            var isTeacher = await _identityController.IsTeacher(userId);
+
+            if (!isTeacher)
+            {
+                return Unauthorized($"User with id {userId} is not teacher");
+            }
+
             var classIds = await _lessonService.GetClassIdsByUserId(userId);
 
-            return await _classService.GetClassesByIds(classIds);
+            return Ok(await _classService.GetClassesByIds(classIds));
         }
     }
 
