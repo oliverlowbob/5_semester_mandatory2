@@ -17,12 +17,19 @@ namespace Skoleprotokol.Controllers
         private readonly IMapper _mapper;
         private readonly IClassService<ClassDto> _classService;
         private readonly ILessonService<string> _lessonService;
+        private readonly IdentityController _identityController;
 
-        public ClassController(IClassService<ClassDto> classService, ILessonService<string> lessonService, IMapper mapper)
+        public ClassController(
+            IClassService<ClassDto> classService, 
+            ILessonService<string> lessonService, 
+            IMapper mapper,
+            IdentityController identityController
+        )
         {
             _mapper = mapper;
             _classService = classService;
             _lessonService = lessonService;
+            _identityController = identityController;
         }
 
         
@@ -31,11 +38,9 @@ namespace Skoleprotokol.Controllers
         [Route("classes")]
         public async Task<List<ClassDto>> GetClasses()
         {
-            ClaimsIdentity claimsIdentity = User.Identity as ClaimsIdentity;
+            var identity = User.Identity as ClaimsIdentity;
 
-            int userId;
-
-            Int32.TryParse(claimsIdentity.Claims.FirstOrDefault().ToString().Split().Last(), out userId);
+            var userId = _identityController.GetUserId(identity);
 
             var classIds = await _lessonService.GetClassIdsByUserId(userId);
 
