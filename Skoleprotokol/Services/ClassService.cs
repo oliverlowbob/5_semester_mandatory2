@@ -19,14 +19,20 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<ClassDto> GetClassesByIds(List<int> classIds)
+        public async Task<List<ClassDto>> GetClassesByIds(List<int> classIds)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
+                var classDtos = new List<ClassDto>();
                 var classEntities = await context.Classes.Where(c => classIds.Contains(c.Idclass)).ToListAsync();
-                var classDto = _mapper.Map<ClassDto>(classEntities);
 
-                return classDto;
+                foreach (var classEnt in classEntities)
+                {
+                    var classDto = _mapper.Map<ClassDto>(classEnt);
+                    classDtos.Add(classDto);
+                }
+
+                return classDtos;
             }
         }
     }

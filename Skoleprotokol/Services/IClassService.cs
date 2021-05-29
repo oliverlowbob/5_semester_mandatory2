@@ -7,6 +7,6 @@ namespace Skoleprotokol.Services
 {
     public interface IClassService<TClass>
     {
-        Task<TClass> GetClassesByIds(List<int> classIds);
+        Task<List<TClass>> GetClassesByIds(List<int> classIds);
     }
 }

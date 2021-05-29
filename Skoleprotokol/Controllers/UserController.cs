@@ -41,8 +41,6 @@ namespace Skoleprotokol.Controllers
 
             var user = await _userService.GetUserByIdAsync(userId);
 
-            Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(user));
-
             if(user == null)
             {
                 return NotFound($"User with id {userId} not found");

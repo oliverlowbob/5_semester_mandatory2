@@ -49,6 +49,10 @@ namespace Skoleprotokol
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
             services.AddScoped<IClassService<ClassDto>, ClassService>();
 
+            // Handles issues with object cycle/recursion depth
+            services.AddControllers().AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             // MongoDB related
             services.Configure<MongoDatabaseSettings>(Configuration.GetSection(nameof(MongoDatabaseSettings)));
             services.AddSingleton<IMongoDatabaseSettings>(sp => sp.GetRequiredService<IOptions<MongoDatabaseSettings>>().Value);
