@@ -47,6 +47,7 @@ namespace Skoleprotokol
             services.AddScoped<IAttendanceKeyService<AttendanceKeyDto, string, int>, AttendanceKeyService>();
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
+            services.AddScoped<IClassService<ClassDto>, ClassService>();
 
             // MongoDB related
             services.Configure<MongoDatabaseSettings>(Configuration.GetSection(nameof(MongoDatabaseSettings)));
