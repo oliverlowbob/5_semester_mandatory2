@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Skoleprotokol.Data;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> MakePresent(string attendanceKey) 
+        public async Task<bool> MakePresent(string attendanceKey)
         {
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -28,7 +29,7 @@ namespace Skoleprotokol.Services
                     .Where(l => l.AttendanceKeys.Any(a => a.IdattendanceKey == attendanceKey))
                     .ToListAsync();
 
-                if(lessonEntites != null && lessonEntites.Any() )
+                if (lessonEntites != null && lessonEntites.Any())
                 {
                     foreach (var lesson in lessonEntites)
                     {
@@ -44,6 +45,23 @@ namespace Skoleprotokol.Services
                 await transaction.CommitAsync();
 
                 return false;
+            }
+        }
+
+        public async Task<List<int>> GetClassIdsByUserId(int userId)
+        {
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                var transaction = await context.Database.BeginTransactionAsync();
+
+                var lessons = await context.Lessons
+                    .Where(l => l.UserIduser == userId)
+                    .Select(l => l.ClassIdclass)
+                    .ToListAsync();
+                
+                await transaction.CommitAsync();
+
+                return lessons;
             }
         }
     }
