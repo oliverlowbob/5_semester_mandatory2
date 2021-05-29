@@ -11,17 +11,19 @@ using System.Security.Claims;
 
 namespace Skoleprotokol.Controllers
 {
-    [ApiController]
     [Authorize]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IUserService<UserDto, NewUserDto> _userService;
+        private readonly IdentityController _identityController;
 
-        public UserController(IUserService<UserDto, NewUserDto> userService, IMapper mapper)
+        public UserController(IUserService<UserDto, NewUserDto> userService, IdentityController identityController, IMapper mapper)
         {
             _mapper = mapper;
             _userService = userService;
+            _identityController = identityController;
         }
 
         /// <summary>
@@ -33,34 +35,25 @@ namespace Skoleprotokol.Controllers
         [Route("users")]
         public async Task<IActionResult> CreateUser([FromBody] NewUserDto newUser)
         {
-            ClaimsIdentity claimsIdentity = User.Identity as ClaimsIdentity;
-
-            int userId;
-
-            Int32.TryParse(claimsIdentity.Claims.FirstOrDefault().ToString().Split().Last(), out userId);
-
-            var user = await _userService.GetUserByIdAsync(userId);
-
-            if(user == null)
-            {
-                return NotFound($"User with id {userId} not found");
-            }
-
-            var isAdmin = user.Roles.Where(r => r.Id == 1);
-
-            if (isAdmin == null && !isAdmin.Any())
-            {
-                return Unauthorized($"User with id {userId} is not admin");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var identity = User.Identity as ClaimsIdentity;
+
+            var userId = _identityController.GetUserId(identity);
+
+            var isAdmin = await _identityController.IsAdmin(userId);
+
+            if (!isAdmin)
+            {
+                return Unauthorized($"User with id {userId} is not admin");
+            }
             
             if (await _userService.CreateNewUser(newUser))
             {
-                return Ok();
+                return Created("created", newUser);
             }
 
             return BadRequest();

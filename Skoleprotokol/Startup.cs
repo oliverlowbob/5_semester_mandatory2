@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Skoleprotokol.Config;
+using Skoleprotokol.Controllers;
 using Skoleprotokol.Data;
 using Skoleprotokol.Dtos;
 using Skoleprotokol.Models.MongoModels;
@@ -48,6 +49,7 @@ namespace Skoleprotokol
             services.AddScoped<ILessonService<string>, LessonService>();
             services.AddScoped<ICourseService<CourseDto>, CourseService>();
             services.AddScoped<IClassService<ClassDto>, ClassService>();
+            services.AddScoped<IdentityController>();
 
             // Handles issues with object cycle/recursion depth
             services.AddControllers().AddNewtonsoftJson(
@@ -190,6 +192,7 @@ namespace Skoleprotokol
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API");
             });
 
+            app.UseDeveloperExceptionPage();
         }
     }
 }

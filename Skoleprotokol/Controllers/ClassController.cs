@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Skoleprotokol.Controllers
 {
+    [ApiController]
     public class ClassController : ControllerBase
     {
         private readonly IMapper _mapper;

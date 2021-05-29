@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace Skoleprotokol.Controllers
 {
     [ApiController]
-    [Authorize]
     public class AttendanceKeysController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -35,6 +34,7 @@ namespace Skoleprotokol.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("attendancekey/generate")]
+        [Authorize]
         public async Task<IActionResult> GenerateKey(AttendanceKeyDto attendanceKey)
         {
             if (attendanceKey.LessonUserIdclass == 0)
@@ -63,6 +63,7 @@ namespace Skoleprotokol.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("attendancekey/generate/{classId}")]
+        [Authorize]
         public async Task<IActionResult> GenerateKeys(int classId)
         {
             if (classId == 0)
@@ -87,6 +88,7 @@ namespace Skoleprotokol.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("attendancekey/validate/{attendanceKey}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Validate(string attendanceKey)
         {
             if (String.IsNullOrEmpty(attendanceKey))
