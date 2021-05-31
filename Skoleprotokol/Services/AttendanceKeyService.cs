@@ -23,11 +23,20 @@ namespace Skoleprotokol.Services
             _mapper = mapper;
         }
 
-        public async Task<string> Generate(AttendanceKeyDto attendanceKeyDto) 
+        public AttendanceKeyService()
+        {
+        }
+
+        public string GenerateKey()
         {
             var id = Guid.NewGuid().ToString("N");
 
-            var attendanceKey = id.Substring(0, 9);
+            return id.Substring(0, 10);
+        }
+
+        public async Task<string> Generate(AttendanceKeyDto attendanceKeyDto) 
+        {
+            var attendanceKey = GenerateKey();
 
             using (var context = _contextFactory.CreateDbContext())
             {
@@ -61,9 +70,7 @@ namespace Skoleprotokol.Services
 
                 foreach(var lesson in lessons)
                 {
-                    var id = Guid.NewGuid().ToString("N");
-
-                    var attendanceKeyId = id.Substring(0, 9);
+                    var attendanceKeyId = GenerateKey();
 
                     var attendanceKey = new AttendanceKey
                     {

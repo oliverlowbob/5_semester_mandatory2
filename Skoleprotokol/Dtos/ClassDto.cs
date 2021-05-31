@@ -13,6 +13,6 @@ namespace Skoleprotokol.Dtos
         public DateTime End { get; set; }
         public int NumberOfClass { get; set; }
         public CourseDto Course { get; set; }
-
+        public IEnumerable<LessonDto> Lessons { get; set; }
     }
 }
