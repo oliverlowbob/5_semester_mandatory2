@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a0662e2d-b6ad-4b43-a6b6-b575fb96d440",
+		"_postman_id": "c401660c-eb40-4fa6-8431-68df096de22d",
 		"name": "REST API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,11 +10,64 @@
 			"item": [
 				{
 					"name": "Get User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var url = pm.request.url.toString();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"      url: url, \r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Content-Type': 'application/json',\r",
+									"          'Authorization': 'Bearer ' + pm.globals.get(\"access_token\")\r",
+									"      },\r",
+									"      body: {}\r",
+									"  }, function (error, response) {\r",
+									"        var responseJson = response.json();\r",
+									"        pm.test(\"First name is Jonas\", function () {\r",
+									"            pm.expect(responseJson.firstName).to.eql(\"Jonas\");\r",
+									"        });\r",
+									"  });\r",
+									"\r",
+									" pm.sendRequest({url : url, method : \"GET\"}, function (error, response) {\r",
+									"     pm.test(\"Status code is 401\", function () {\r",
+									"         pm.expect(response).to.have.status(401);\r",
+									"     });\r",
+									" });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "https://localhost:44398/users/5",
+							"raw": "https://localhost:44398/users/2",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -22,7 +75,27 @@
 							"port": "44398",
 							"path": [
 								"users",
-								"5"
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44398/users/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								""
 							]
 						}
 					},
@@ -98,6 +171,35 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test111\",\r\n  \"firstName\": \"test\",\r\n  \"lastname\": \"test\",\r\n  \"password\": \"test\",\r\n  \"schoolId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44398/users/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -134,21 +236,12 @@
 					"response": []
 				},
 				{
-					"name": "Is Valid",
+					"name": "Generate Keys",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"LessonUserIduser\" : 3,\r\n    \"LessonUserIdclass\" : 1,\r\n    \"Value\": \"3b6e15fb8\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "https://localhost:44398/attendancekey/validate",
+							"raw": "https://localhost:44398/attendancekey/generate/1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -156,13 +249,202 @@
 							"port": "44398",
 							"path": [
 								"attendancekey",
-								"validate"
+								"generate",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44398/attendancekey/validate/51b479afba",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"attendancekey",
+								"validate",
+								"51b479afba"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Authorize",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var authBody = {\r",
+									"    \"email\": \"apiuser@api.com\",\r",
+									"    \"password\": \"password\"\r",
+									"}\r",
+									"\r",
+									"pm.sendRequest({\r",
+									"      url: \"https://localhost:44398/authenticate\", \r",
+									"      method: 'POST',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Content-Type': 'application/json'\r",
+									"      },\r",
+									"      body: {\r",
+									"          mode: 'raw',\r",
+									"          raw: JSON.stringify(authBody)\r",
+									"      }\r",
+									"  }, function (error, response) {\r",
+									"        var responseJson = response.json();\r",
+									"        pm.globals.set(\"access_token\", responseJson[\"access_token\"]);\r",
+									"  });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"apiuser@api.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44398/authenticate",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44398",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MongoDB",
+			"item": [
+				{
+					"name": "School",
+					"item": [
+						{
+							"name": "Get All Schools",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": null
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create User Mongo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"start\": \"2021-05-28T12:55:12.692Z\",\r\n  \"end\": \"2021-05-28T12:55:12.692Z\",\r\n  \"numberOfClass\": 1,\r\n  \"courseId\": \"60a7c5160ede482c30926213\",\r\n  \"users\": [\r\n    {\r\n      \"user\": {\r\n        \"firstName\": \"Mads\",\r\n        \"lastName\": \"Makker\",\r\n        \"email\": \"test@test.dk\"\r\n      },\r\n      \"present\": false\r\n    },\r\n    {\r\n      \"user\": {\r\n        \"firstName\": \"Dennis\",\r\n        \"lastName\": \"Madsen\",\r\n        \"email\": \"test@test.dk\"\r\n      },\r\n      \"present\": false\r\n    },\r\n    {\r\n      \"user\": {\r\n        \"firstName\": \"Klasse\",\r\n        \"lastName\": \"Makker\",\r\n        \"email\": \"test@test.dk\"\r\n      },\r\n      \"present\": false\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:44398/mongo/class/",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "44398",
+									"path": [
+										"mongo",
+										"class",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
