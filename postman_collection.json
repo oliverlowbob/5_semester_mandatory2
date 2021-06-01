@@ -433,7 +433,26 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					""
+					"var authBody = {",
+					"    \"email\": \"apiuser@api.com\",",
+					"    \"password\": \"password\"",
+					"}",
+					"",
+					"pm.sendRequest({",
+					"      url: \"https://localhost:44398/authenticate\", ",
+					"      method: 'POST',",
+					"      header: {",
+					"        'Accept': 'application/json',",
+					"        'Content-Type': 'application/json'",
+					"      },",
+					"      body: {",
+					"          mode: 'raw',",
+					"          raw: JSON.stringify(authBody)",
+					"      }",
+					"  }, function (error, response) {",
+					"        var responseJson = response.json();",
+					"        pm.globals.set(\"access_token\", responseJson[\"access_token\"]);",
+					"  });"
 				]
 			}
 		},
